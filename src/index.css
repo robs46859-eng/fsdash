@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
+  
+  --color-background: #FDFBFF;
+  --color-surface: rgba(255, 255, 255, 0.95);
+  --color-border-light: rgba(0, 0, 0, 0.04);
+  --color-primary-accent: #A855F7; /* Purple */
+  --color-secondary-accent: #F472B6; /* Pink */
+  
+  /* New Palette */
+  --color-midnight: #0F172A;
+  --color-pastel-pink: #F472B6;
+  --color-pastel-orange: #FB923C;
+  --color-pastel-purple: #A855F7;
+  --color-lilac: #D8B4FE;
+  --color-pastel-yellow: #FEFCE8;
+  
+  /* Pastel Palette */
+  --color-lavender: #FDFBFF;
+  --color-mist-blue: #F3EEFF;
+  --color-pale-peach: #FFFFFF;
+  --color-mint-haze: #F8F7FF;
+  --color-slate-dark: #1E293B;
+}
+
+@layer base {
+  body {
+    @apply text-slate-dark font-sans antialiased selection:bg-pastel-purple/10;
+    background: linear-gradient(135deg, #FDFBFF 0%, #F3EEFF 100%);
+    background-attachment: fixed;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply bg-white border border-slate-200/50 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.02)];
+  }
+  
+  .solid-panel {
+    @apply bg-white border border-slate-200 rounded-2xl shadow-xl;
+  }
+  
+  .glass-overlay {
+    @apply bg-white/95 backdrop-blur-xl border border-white/30;
+  }
+  
+  .btn-primary {
+    @apply bg-primary-accent text-white px-5 py-2.5 rounded-xl font-medium transition-all hover:shadow-lg hover:shadow-primary-accent/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+  
+  .btn-minimal {
+    @apply px-3 py-1.5 rounded-lg text-sm font-medium transition-all hover:bg-black/5 active:scale-95 disabled:opacity-50;
+  }
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
