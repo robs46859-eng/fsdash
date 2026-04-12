@@ -1,5 +1,5 @@
 {
-  "name": "react-example",
+  "name": "fullstack-dashboard",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,10 +8,12 @@
     "build": "vite build",
     "preview": "vite preview",
     "clean": "rm -rf dist",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "grunt": "grunt",
+    "grunt:dev": "grunt dev",
+    "grunt:build": "grunt build"
   },
   "dependencies": {
-    "@google/genai": "^1.29.0",
     "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^5.0.4",
     "clsx": "^2.1.1",
@@ -29,6 +31,7 @@
     "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
     "autoprefixer": "^10.4.21",
+    "grunt": "^1.6.1",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.21.0",
     "typescript": "~5.8.2",

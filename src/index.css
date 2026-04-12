@@ -1,65 +1,197 @@
-@import url('https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
 @import "tailwindcss";
 
+/* DESIGNMASTER.md — Industrial Precision & Retro-Futurism ("The Kinetic Monolith") */
+
 @theme {
-  --font-sans: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Host Grotesk", ui-sans-serif, system-ui, sans-serif;
-  
-  --color-background: #FDFBFF;
-  --color-surface: rgba(255, 255, 255, 0.95);
-  --color-border-light: rgba(0, 0, 0, 0.04);
-  --color-primary-accent: #A855F7; /* Purple */
-  --color-secondary-accent: #F472B6; /* Pink */
-  
-  /* New Palette */
-  --color-midnight: #0F172A;
-  --color-pastel-pink: #F472B6;
-  --color-pastel-orange: #FB923C;
-  --color-pastel-purple: #A855F7;
-  --color-lilac: #D8B4FE;
-  --color-pastel-yellow: #FEFCE8;
-  
-  /* Pastel Palette */
-  --color-lavender: #FDFBFF;
-  --color-mist-blue: #F3EEFF;
-  --color-pale-peach: #FFFFFF;
-  --color-mint-haze: #F8F7FF;
-  --color-slate-dark: #1E293B;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+
+  /* Surfaces — cooler slate-grey instead of near-black */
+  --color-surface: #34404d;
+  --color-surface-container-low: #3d4a58;
+  --color-surface-container-lowest: #303b47;
+  --color-surface-container-high: #475666;
+  --color-surface-container-highest: #536476;
+
+  --color-on-surface: #e8e6e3;
+  --color-on-surface-variant: #c5ced8;
+
+  --color-primary: #ffb59f;
+  --color-primary-container: #ff7043;
+  --color-on-primary: #ffffff;
+
+  --color-outline: #7f8b99;
+  --color-outline-variant: #6b7683;
+
+  --color-error: #ffb4ab;
+  --color-on-error: #690005;
+
+  /* Legacy token aliases → map to DS (for gradual migration in TSX) */
+  --color-midnight: #e8e6e3;
+  --color-slate-dark: #e8e6e3;
+  --color-primary-accent: #ff7043;
+  --color-secondary-accent: #ff7043;
+  --color-pastel-pink: #ffb59f;
+  --color-pastel-purple: #ff7043;
+  --color-pastel-orange: #ff7043;
+  --color-lilac: #3d4a58;
+  --color-pastel-yellow: #3d4a58;
+  --color-lavender: #34404d;
+  --color-mist-blue: #3d4a58;
+  --color-pale-peach: #475666;
+  --color-mint-haze: #34404d;
 }
 
 @layer base {
-  body {
-    @apply text-slate-dark font-sans antialiased selection:bg-pastel-purple/10;
-    background: linear-gradient(135deg, #FDFBFF 0%, #F3EEFF 100%);
-    background-attachment: fixed;
+  html {
+    @apply antialiased;
     font-variant-numeric: tabular-nums;
+  }
+
+  body {
+    @apply bg-surface text-on-surface font-sans;
+    background-image: linear-gradient(180deg, #3a4755 0%, var(--color-surface) 48%, #2f3944 100%);
+    transition: background-color 150ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  /* Subtle grain on dark surfaces (3–5% opacity) */
+  body::before {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  #root {
+    position: relative;
+    z-index: 1;
+  }
+
+  ::selection {
+    @apply bg-primary-container/30 text-on-surface;
   }
 }
 
 @layer components {
-  .glass-panel {
-    @apply bg-white border border-slate-200/50 rounded-2xl shadow-[0_4px_20px_rgba(0,0,0,0.02)];
+  /* Panels: depth via tonal shift — no 1px layout borders */
+  .ds-panel {
+    @apply bg-surface-container-high text-on-surface;
   }
-  
-  .solid-panel {
-    @apply bg-white border border-slate-200 rounded-2xl shadow-xl;
+
+  .ds-panel-inset {
+    @apply bg-surface-container-low text-on-surface;
   }
-  
-  .glass-overlay {
-    @apply bg-white/95 backdrop-blur-xl border border-white/30;
+
+  .ds-panel-raised {
+    @apply bg-surface-container-highest text-on-surface;
   }
-  
+
+  /* Ghost border only when needed (15% outline-variant) */
+  .ds-ghost-border {
+    @apply outline outline-1 -outline-offset-1 outline-outline-variant/15;
+  }
+
+  /* Primary CTA — gradient filament 45° */
   .btn-primary {
-    @apply bg-primary-accent text-white px-5 py-2.5 rounded-xl font-medium transition-all hover:shadow-lg hover:shadow-primary-accent/20 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed;
+    @apply inline-flex items-center justify-center px-5 py-2.5 text-on-primary font-semibold uppercase tracking-widest text-[11px];
+    border-radius: 0;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-container) 100%);
+    transition:
+      background 150ms cubic-bezier(0, 0, 0.2, 1),
+      box-shadow 150ms cubic-bezier(0, 0, 0.2, 1),
+      opacity 150ms cubic-bezier(0, 0, 0.2, 1);
   }
-  
+
+  .btn-primary:hover:not(:disabled) {
+    box-shadow: 0 0 0 1px var(--color-primary), 0 0 24px rgba(255, 112, 67, 0.35);
+  }
+
+  .btn-primary:disabled {
+    @apply cursor-not-allowed opacity-50;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-5 py-2.5 uppercase tracking-widest text-[11px] font-semibold text-primary;
+    border-radius: 0;
+    background: transparent;
+    outline: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    transition:
+      background 150ms cubic-bezier(0, 0, 0.2, 1),
+      outline-color 150ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .btn-secondary:hover:not(:disabled) {
+    @apply bg-surface-container-high;
+  }
+
   .btn-minimal {
-    @apply px-3 py-1.5 rounded-lg text-sm font-medium transition-all hover:bg-black/5 active:scale-95 disabled:opacity-50;
+    @apply px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-on-surface-variant;
+    border-radius: 0;
+    border-bottom: 1px solid transparent;
+    transition: border-color 150ms cubic-bezier(0, 0, 0.2, 1), color 150ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .btn-minimal:hover {
+    @apply text-primary border-primary/40;
+  }
+
+  /* Data port inputs — bottom bar only */
+  .ds-input {
+    @apply w-full bg-surface-container-highest text-on-surface px-0 py-3 border-0 border-b-2 border-outline/40;
+    border-radius: 0;
+    transition:
+      border-color 150ms cubic-bezier(0, 0, 0.2, 1),
+      background-color 150ms cubic-bezier(0, 0, 0.2, 1);
+  }
+
+  .ds-input:focus {
+    @apply outline-none border-primary bg-surface-container-high;
+  }
+
+  .ds-input::placeholder {
+    @apply text-on-surface-variant;
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.02em;
+  }
+
+  /* Glass overlay for floating UI */
+  .ds-glass {
+    @apply bg-surface-container-highest/70 backdrop-blur-[20px] text-on-surface;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Zebra list rows */
+  .ds-zebra-odd {
+    @apply bg-surface-container-low;
+  }
+
+  .ds-zebra-even {
+    @apply bg-surface-container-lowest;
+  }
+
+  /* Ambient float shadow (menus) */
+  .ds-float-shadow {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Legacy aliases used across views */
+  .glass-panel {
+    @apply rounded-none bg-surface-container-high text-on-surface outline outline-1 -outline-offset-1 outline-outline-variant/15;
+  }
+
+  .solid-panel {
+    @apply rounded-none bg-surface-container-highest text-on-surface outline outline-1 -outline-offset-1 outline-outline-variant/15;
+  }
+
+  .glass-overlay {
+    @apply bg-surface-container-highest/70 text-on-surface backdrop-blur-[20px];
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
   }
 }
-
-.font-display {
-  font-family: var(--font-display);
-  letter-spacing: -0.02em;
-}
-

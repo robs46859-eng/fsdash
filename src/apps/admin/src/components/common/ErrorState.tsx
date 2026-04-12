@@ -1,8 +1,8 @@
 import React from "react";
 
 export const ErrorState = ({ error }: { error: string }) => (
-  <div className="p-8 bg-rose-500/5 border border-rose-500/10 rounded-2xl text-center">
-    <p className="text-rose-600 font-bold uppercase tracking-widest text-xs">Error</p>
-    <p className="text-rose-500 text-sm mt-2">{error}</p>
+  <div className="border-l-[3px] border-l-rose-400 bg-rose-500/5 p-8 text-center">
+    <p className="font-display text-xs font-bold uppercase tracking-widest text-rose-300">Error</p>
+    <p className="mt-2 text-sm text-rose-200/90">{error}</p>
   </div>
 );

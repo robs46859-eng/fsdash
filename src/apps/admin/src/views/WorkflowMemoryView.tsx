@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Filter, MoreHorizontal, LayoutDashboard, XCircle, CheckCircle2, Settings, Send, FlaskConical } from "lucide-react";
+import { Filter, MoreHorizontal, XCircle, CheckCircle2, Settings, Send, FlaskConical } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { ReviewItem } from "../../../../types";
 import { api } from "../api";
@@ -12,15 +12,17 @@ import { DeliveryHistoryPanel } from "../components/panels/DeliveryHistoryPanel"
 import { ApproveRejectControls } from "../components/actions/ApproveRejectControls";
 import { ExecuteControl } from "../components/actions/ExecuteControl";
 import { DryRunDeliverControl } from "../components/actions/DryRunDeliverControl";
-import { LoadingState } from "../components/common/LoadingState";
-import { EmptyState } from "../components/common/EmptyState";
-import { ErrorState } from "../components/common/ErrorState";
+const panelTransition = { duration: 0.2, ease: [0, 0, 0.2, 1] as const };
 
-// I'll define the SlidePanel here or as a separate component if requested, 
-// but the user didn't explicitly list it in the tree, though it's part of the flow.
-// I'll include it in WorkflowMemoryView for now.
-
-const SlidePanel = ({ item, onClose, onAction }: { item: ReviewItem | null, onClose: () => void, onAction: () => void }) => {
+const SlidePanel = ({
+  item,
+  onClose,
+  onAction,
+}: {
+  item: ReviewItem | null;
+  onClose: () => void;
+  onAction: () => void;
+}) => {
   const [activeTab, setActiveTab] = useState("preview");
 
   if (!item) return null;
@@ -32,41 +34,46 @@ const SlidePanel = ({ item, onClose, onAction }: { item: ReviewItem | null, onCl
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         onClick={onClose}
-        className="fixed inset-0 bg-black/5 backdrop-blur-sm z-40"
+        className="fixed inset-0 z-40 bg-black/50 backdrop-blur-[2px]"
       />
       <motion.div
         initial={{ x: "100%" }}
         animate={{ x: 0 }}
         exit={{ x: "100%" }}
-        transition={{ type: "spring", damping: 30, stiffness: 300 }}
-        className="fixed right-0 top-0 h-screen w-[550px] bg-white shadow-[0_0_100px_rgba(0,0,0,0.1)] z-50 flex flex-col border-l border-slate-200"
+        transition={panelTransition}
+        className="ds-float-shadow fixed right-0 top-0 z-50 flex h-screen w-[550px] flex-col border-l border-outline-variant/15 bg-surface-container-highest"
       >
-        <div className="p-8 border-b border-slate-200 flex items-center justify-between">
+        <div className="flex items-center justify-between border-b border-outline-variant/15 p-8">
           <div>
             <div className="flex items-center gap-3">
-              <h2 className="text-lg font-display font-semibold tracking-tight text-midnight">{item.workflowName}</h2>
+              <h2 className="font-display text-lg font-semibold uppercase tracking-tight text-on-surface">{item.workflowName}</h2>
               {item.metadata.dryRunFlag && (
-                <div className="px-2 py-0.5 bg-amber-500/10 text-amber-600 rounded-full flex items-center gap-1 border border-amber-500/20">
+                <div className="flex items-center gap-1 border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-amber-200 outline outline-1 -outline-offset-1 outline-amber-500/20">
                   <FlaskConical size={10} strokeWidth={2.5} />
                   <span className="text-[9px] font-black uppercase tracking-tighter">Dry Run</span>
                 </div>
               )}
             </div>
-            <p className="text-xs text-pastel-pink uppercase tracking-widest mt-1">{item.stage} • {item.id}</p>
+            <p className="mt-1 text-xs uppercase tracking-widest text-primary">
+              {item.stage} • {item.id}
+            </p>
           </div>
-          <button onClick={onClose} className="p-2.5 hover:bg-slate-50 rounded-xl transition-all">
-            <XCircle size={22} className="text-slate-300" />
+          <button type="button" onClick={onClose} className="p-2.5 text-on-surface-variant transition-colors duration-150 hover:bg-surface-container-low">
+            <XCircle size={22} />
           </button>
         </div>
 
-        <div className="flex border-b border-slate-200 px-8">
+        <div className="flex border-b border-outline-variant/15 px-8">
           {["preview", "trace", "metadata", "history"].map((tab) => (
             <button
               key={tab}
+              type="button"
               onClick={() => setActiveTab(tab)}
               className={cn(
-                "px-5 py-4 text-xs font-bold uppercase tracking-widest transition-all border-b-2",
-                activeTab === tab ? "border-pastel-purple text-pastel-purple" : "border-transparent text-slate-400 hover:text-slate-600"
+                "border-b-2 px-5 py-4 text-xs font-bold uppercase tracking-widest transition-colors duration-150",
+                activeTab === tab
+                  ? "border-primary text-primary"
+                  : "border-transparent text-on-surface-variant hover:text-on-surface",
               )}
             >
               {tab}
@@ -78,12 +85,12 @@ const SlidePanel = ({ item, onClose, onAction }: { item: ReviewItem | null, onCl
           {activeTab === "preview" && (
             <div className="space-y-8">
               <div>
-                <label className="text-[10px] font-bold text-pastel-pink uppercase tracking-widest">Subject</label>
-                <p className="mt-2 text-base font-semibold text-midnight">{item.subject}</p>
+                <label className="text-[10px] font-bold uppercase tracking-widest text-primary">Subject</label>
+                <p className="mt-2 text-base font-semibold text-on-surface">{item.subject}</p>
               </div>
               <div>
-                <label className="text-[10px] font-bold text-pastel-pink uppercase tracking-widest">Message Body</label>
-                <div className="mt-3 p-6 bg-slate-50/50 border border-slate-100 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap text-slate-600 shadow-sm">
+                <label className="text-[10px] font-bold uppercase tracking-widest text-primary">Message Body</label>
+                <div className="mt-3 whitespace-pre-wrap border border-outline-variant/15 bg-surface-container-low p-6 text-sm leading-relaxed text-on-surface-variant">
                   {item.messageBody}
                 </div>
               </div>
@@ -93,29 +100,33 @@ const SlidePanel = ({ item, onClose, onAction }: { item: ReviewItem | null, onCl
           {activeTab === "trace" && <DecisionTracePanel trace={item.decisionTrace} />}
 
           {activeTab === "metadata" && (
-            <div className="space-y-8 text-midnight">
+            <div className="space-y-8 text-on-surface">
               <div className="grid grid-cols-2 gap-8">
                 <div>
-                  <label className="text-[10px] font-bold text-pastel-pink uppercase tracking-widest">Tenant</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-primary">Tenant</label>
                   <p className="mt-1 text-sm font-semibold">{item.tenant}</p>
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-pastel-pink uppercase tracking-widest">Actor</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-primary">Actor</label>
                   <p className="mt-1 text-sm font-semibold">{item.actor}</p>
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-pastel-pink uppercase tracking-widest">Priority</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-primary">Priority</label>
                   <div className="mt-2">
-                    <span className={cn(
-                      "px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-widest",
-                      item.metadata.priority === "high" ? "bg-rose-500/10 text-rose-600" : "bg-slate-50 text-slate-400"
-                    )}>
+                    <span
+                      className={cn(
+                        "border-l-[3px] px-2 py-1 text-[10px] font-bold uppercase tracking-widest",
+                        item.metadata.priority === "high"
+                          ? "border-l-rose-400 bg-rose-500/10 text-rose-200"
+                          : "border-l-outline-variant bg-surface-container-low text-on-surface-variant",
+                      )}
+                    >
                       {item.metadata.priority}
                     </span>
                   </div>
                 </div>
                 <div>
-                  <label className="text-[10px] font-bold text-pastel-pink uppercase tracking-widest">Context</label>
+                  <label className="text-[10px] font-bold uppercase tracking-widest text-primary">Context</label>
                   <p className="mt-1 text-sm font-semibold">{item.metadata.workflowContext}</p>
                 </div>
               </div>
@@ -125,43 +136,45 @@ const SlidePanel = ({ item, onClose, onAction }: { item: ReviewItem | null, onCl
           {activeTab === "history" && <DeliveryHistoryPanel item={item} />}
         </div>
 
-        <div className="p-8 border-t border-slate-200 bg-slate-50/50">
+        <div className="border-t border-outline-variant/15 bg-surface-container-low p-8">
           <div className="flex flex-col gap-4">
             {item.status === "pending" && (
-              <ApproveRejectControls 
-                onApprove={onAction} 
-                onReject={() => {}} 
-                onNeedsFix={() => {}} 
-              />
+              <ApproveRejectControls onApprove={onAction} onReject={() => {}} onNeedsFix={() => {}} />
             )}
 
             {item.status === "approved" && (
-              <ExecuteControl onExecute={async () => {
-                await api.execute(item.id);
-                onAction();
-              }} />
+              <ExecuteControl
+                onExecute={async () => {
+                  await api.execute(item.id);
+                  onAction();
+                }}
+              />
             )}
 
             {item.status === "executed" && (
-              <DryRunDeliverControl onDeliver={async () => {
-                await api.deliver(item.id, true);
-                onAction();
-              }} />
+              <DryRunDeliverControl
+                onDeliver={async () => {
+                  await api.deliver(item.id, true);
+                  onAction();
+                }}
+              />
             )}
 
             {item.status === "delivered" && (
-              <div className="p-5 bg-emerald-500/5 rounded-2xl border border-emerald-500/10 flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 flex items-center justify-center">
-                  <CheckCircle2 size={24} className="text-emerald-500" />
+              <div className="flex items-center gap-4 border border-emerald-500/20 bg-emerald-500/5 p-5">
+                <div className="flex h-10 w-10 items-center justify-center bg-emerald-500/15">
+                  <CheckCircle2 size={24} className="text-emerald-400" />
                 </div>
                 <div>
-                  <p className="text-sm font-bold text-emerald-900">Successfully Delivered</p>
-                  <p className="text-[11px] text-emerald-600 font-medium">Provider: SendGrid • {new Date().toLocaleTimeString()}</p>
+                  <p className="text-sm font-bold text-emerald-200">Successfully Delivered</p>
+                  <p className="text-[11px] font-medium text-emerald-300/90">
+                    Provider: SendGrid • {new Date().toLocaleTimeString()}
+                  </p>
                 </div>
               </div>
             )}
 
-            <p className="text-[10px] text-center text-slate-400 uppercase tracking-[0.2em] font-bold mt-2">
+            <p className="mt-2 text-center text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant">
               System Governance Protocol Active
             </p>
           </div>
@@ -182,7 +195,7 @@ export const WorkflowMemoryView = () => {
       const data = await api.getReviewQueue();
       setQueue(data);
       if (selectedItem) {
-        const updated = data.find(i => i.id === selectedItem.id);
+        const updated = data.find((i) => i.id === selectedItem.id);
         if (updated) setSelectedItem(updated);
       }
     } catch (err) {
@@ -198,10 +211,10 @@ export const WorkflowMemoryView = () => {
 
   return (
     <div className="flex-1 overflow-y-auto p-10">
-      <div className="max-w-6xl mx-auto">
+      <div className="mx-auto max-w-6xl">
         <header className="mb-12">
-          <h1 className="text-2xl font-display font-semibold tracking-tighter mb-3 text-midnight">Review Queue</h1>
-          <p className="text-pastel-purple font-medium">Manage and govern outbound execution workflows.</p>
+          <h1 className="mb-3 font-display text-2xl font-semibold uppercase tracking-tight text-on-surface">Review Queue</h1>
+          <p className="font-medium text-on-surface-variant">Manage and govern outbound execution workflows.</p>
         </header>
 
         <WorkflowMetricStrip items={queue} />
@@ -209,49 +222,64 @@ export const WorkflowMemoryView = () => {
         <ApprovedExecutionList items={queue} onSelect={setSelectedItem} />
 
         <div className="glass-panel overflow-hidden">
-          <div className="p-5 border-b border-slate-200/50 flex items-center justify-between bg-white/20">
+          <div className="flex items-center justify-between border-b border-outline-variant/15 bg-surface-container-low p-5">
             <div className="flex items-center gap-6">
-              <button className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest text-pink-400 hover:bg-pink-50 rounded-xl transition-all">
+              <button
+                type="button"
+                className="flex items-center gap-2 px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary transition-colors duration-150 hover:bg-surface-container-high"
+              >
                 <Filter size={16} /> Filter
               </button>
-              <div className="h-5 w-[1px] bg-pink-100" />
-              <div className="flex gap-3">
-                {["All", "Pending", "Approved", "Executed"].map(f => (
-                  <button key={f} className={cn("px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest rounded-full transition-all", f === "All" ? "bg-pink-600 text-white shadow-lg shadow-pink-600/10" : "text-pink-300 hover:bg-pink-50")}>
+              <div className="h-5 w-px bg-outline-variant/30" />
+              <div className="flex gap-2">
+                {["All", "Pending", "Approved", "Executed"].map((f) => (
+                  <button
+                    key={f}
+                    type="button"
+                    className={cn(
+                      "px-4 py-1.5 text-[10px] font-bold uppercase tracking-widest transition-colors duration-150",
+                      f === "All"
+                        ? "bg-primary-container text-on-primary"
+                        : "text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface",
+                    )}
+                  >
                     {f}
                   </button>
                 ))}
               </div>
             </div>
             <div className="relative">
-              <button 
+              <button
+                type="button"
                 onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
-                className="p-2.5 text-pink-300 hover:bg-pink-50 rounded-xl transition-all"
+                className="p-2.5 text-on-surface-variant transition-colors duration-150 hover:bg-surface-container-high"
               >
                 <MoreHorizontal size={20} />
               </button>
-              
+
               <AnimatePresence>
                 {isMoreMenuOpen && (
                   <>
                     <div className="fixed inset-0 z-40" onClick={() => setIsMoreMenuOpen(false)} />
                     <motion.div
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      className="absolute top-full right-0 mt-2 w-48 bg-white border border-slate-200 rounded-2xl p-2 z-50 shadow-2xl"
+                      initial={{ opacity: 0, y: -4 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -4 }}
+                      transition={panelTransition}
+                      className="ds-float-shadow absolute right-0 top-full z-50 mt-2 w-48 border border-outline-variant/15 bg-surface-container-highest p-2 outline outline-1 -outline-offset-1 outline-outline-variant/15"
                     >
                       {[
                         { label: "Export Queue", icon: Send },
                         { label: "Batch Approve", icon: CheckCircle2 },
                         { label: "Queue Settings", icon: Settings },
-                      ].map((item) => (
+                      ].map((menuItem) => (
                         <button
-                          key={item.label}
-                          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-xs font-bold uppercase tracking-widest text-pink-500 hover:bg-pink-50 transition-all"
+                          key={menuItem.label}
+                          type="button"
+                          className="flex w-full items-center gap-3 px-3 py-2.5 text-xs font-bold uppercase tracking-widest text-on-surface-variant transition-colors duration-150 hover:bg-surface-container-high hover:text-on-surface"
                         >
-                          <item.icon size={14} />
-                          {item.label}
+                          <menuItem.icon size={14} />
+                          {menuItem.label}
                         </button>
                       ))}
                     </motion.div>
@@ -265,11 +293,7 @@ export const WorkflowMemoryView = () => {
         </div>
       </div>
 
-      <SlidePanel 
-        item={selectedItem} 
-        onClose={() => setSelectedItem(null)} 
-        onAction={fetchData}
-      />
+      <SlidePanel item={selectedItem} onClose={() => setSelectedItem(null)} onAction={fetchData} />
     </div>
   );
 };

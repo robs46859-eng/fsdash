@@ -1,89 +1,81 @@
 import React from "react";
-import { 
-  Shield, 
-  Lock, 
-  Bell, 
-  Cpu, 
-  Database, 
-  Globe,
-  ChevronRight,
-  Key
-} from "lucide-react";
+import { Globe, LockKeyhole, Shield, Waypoints } from "lucide-react";
+import { RuntimeConfig } from "../../../../lib/runtime";
 
-export const SettingsView = () => {
+interface SettingsViewProps {
+  runtime: RuntimeConfig;
+}
+
+export function SettingsView({ runtime }: SettingsViewProps) {
   const sections = [
     {
-      title: "Governance Protocols",
-      desc: "Configure system-wide execution boundaries and approval workflows.",
+      title: "Deployment assumptions",
+      icon: Globe,
       items: [
-        { icon: Shield, label: "Execution Guardrails", desc: "Define mandatory review scores and auto-rejection thresholds.", path: "/settings/guardrails" },
-        { icon: Lock, label: "Access Control", desc: "Manage RBAC roles and administrative permissions.", path: "/settings/access" },
-        { icon: Key, label: "API Governance", desc: "Rotate system keys and manage outbound service credentials.", path: "/settings/api" },
-      ]
+        `Public host: ${runtime.publicBaseUrl}`,
+        `App base path: ${runtime.appBaseUrl}`,
+        `Platform API base: ${runtime.apiBaseUrl || "same-origin / reverse proxy"}`,
+      ],
     },
     {
-      title: "System Infrastructure",
-      desc: "Monitor and configure the underlying execution engine.",
+      title: "Authentication posture",
+      icon: LockKeyhole,
       items: [
-        { icon: Cpu, label: "Compute Resources", desc: "Allocate execution priority and concurrent workflow limits.", path: "/settings/compute" },
-        { icon: Database, label: "Data Persistence", desc: "Configure retention policies for decision traces and history.", path: "/settings/data" },
-        { icon: Globe, label: "Regional Routing", desc: "Manage data residency and execution node locations.", path: "/settings/regions" },
-      ]
-    }
+        `Auth mode: ${runtime.authMode}`,
+        `Trust upstream auth: ${runtime.trustUpstreamAuth ? "true" : "false"}`,
+        `Session probe: ${runtime.sessionProbePath ?? "not configured"}`,
+      ],
+    },
+    {
+      title: "Arkham sidecar",
+      icon: Waypoints,
+      items: [
+        `Enabled: ${runtime.arkham.enabled ? "true" : "false"}`,
+        `Base URL: ${runtime.arkham.baseUrl ?? "same host / not configured"}`,
+        `Health path: ${runtime.arkham.healthPath ?? "not configured"}`,
+      ],
+    },
+    {
+      title: "Governance notes",
+      icon: Shield,
+      items: [
+        "No operator controls are rendered unless a backend route exists to support them.",
+        "Arkham remains a sidecar module and does not replace FullStack product identity.",
+        "Production operator flows are bearer-first; cookie compatibility is documented but not the primary auth path.",
+        "Reverse proxy and CORS assumptions are documented in DEPLOYMENT_NOTES.md.",
+      ],
+    },
   ];
 
   return (
     <div className="flex-1 overflow-y-auto p-10">
-      <div className="max-w-4xl mx-auto">
+      <div className="mx-auto max-w-5xl">
         <header className="mb-12">
-          <h1 className="text-2xl font-display font-semibold tracking-tighter mb-3 text-midnight">Settings</h1>
-          <p className="text-pastel-purple font-medium">Configure system governance and security protocols.</p>
+          <h1 className="mb-3 font-display text-2xl font-semibold uppercase tracking-tight text-on-surface">Settings</h1>
+          <p className="font-medium text-on-surface-variant">Runtime and deployment posture for the FullStack operator shell.</p>
         </header>
 
-        <div className="space-y-12">
-          {sections.map((section, idx) => (
-            <div key={idx}>
-              <div className="mb-6">
-                <h2 className="text-base font-semibold text-midnight">{section.title}</h2>
-                <p className="text-sm text-pastel-purple">{section.desc}</p>
+        <div className="grid gap-4 md:grid-cols-2">
+          {sections.map((section) => (
+            <div key={section.title} className="glass-panel p-6">
+              <div className="mb-5 flex h-12 w-12 items-center justify-center bg-surface-container-low text-primary outline outline-1 -outline-offset-1 outline-outline-variant/15">
+                <section.icon size={22} strokeWidth={1.6} />
               </div>
-              
-              <div className="grid gap-4">
-                {section.items.map((item, i) => (
-                  <div 
-                    key={i} 
-                    className="glass-panel p-6 flex items-center justify-between hover:border-pastel-purple transition-all cursor-pointer group"
+              <h2 className="font-display text-lg font-semibold uppercase tracking-tight text-on-surface">{section.title}</h2>
+              <div className="mt-4 space-y-3">
+                {section.items.map((item) => (
+                  <div
+                    key={item}
+                    className="bg-surface-container-low px-4 py-4 text-sm leading-6 text-on-surface-variant outline outline-1 -outline-offset-1 outline-outline-variant/15"
                   >
-                    <div className="flex items-center gap-5">
-                      <div className="w-12 h-12 rounded-2xl bg-white border border-slate-100 shadow-sm flex items-center justify-center text-slate-300 group-hover:text-pastel-purple group-hover:bg-pastel-purple/5 transition-all">
-                        <item.icon size={24} strokeWidth={1.5} />
-                      </div>
-                      <div>
-                        <p className="text-sm font-bold text-midnight">{item.label}</p>
-                        <p className="text-xs text-pastel-pink mt-0.5">{item.desc}</p>
-                        <p className="text-[9px] text-slate-200 font-mono mt-1 opacity-0 group-hover:opacity-100 transition-opacity">{item.path}</p>
-                      </div>
-                    </div>
-                    <ChevronRight size={18} className="text-slate-200 group-hover:translate-x-1 transition-transform" />
+                    {item}
                   </div>
                 ))}
               </div>
             </div>
           ))}
         </div>
-
-        <div className="mt-12 p-8 glass-panel bg-rose-500/5 border-rose-500/10">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm font-bold text-rose-900">Danger Zone</p>
-              <p className="text-xs text-rose-600 mt-1">Irreversible system-wide actions.</p>
-            </div>
-            <button className="px-4 py-2 bg-rose-500 text-white text-xs font-bold uppercase tracking-widest rounded-xl shadow-lg shadow-rose-500/20 hover:bg-rose-600 transition-all">
-              Reset Governance Engine
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );
-};
+}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Users, Shield, Globe, MoreVertical, Plus, Search } from "lucide-react";
 import { StatusBadge } from "../components/common/StatusBadge";
 
@@ -12,81 +12,87 @@ const mockTenants = [
 export const TenantsView = () => {
   return (
     <div className="flex-1 overflow-y-auto p-10">
-      <div className="max-w-6xl mx-auto">
+      <div className="mx-auto max-w-6xl">
         <header className="mb-12 flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-display font-semibold tracking-tighter mb-3 text-midnight">Tenants</h1>
-            <p className="text-pastel-purple font-medium">Manage organizational isolation and governance boundaries.</p>
+            <h1 className="mb-3 font-display text-2xl font-semibold uppercase tracking-tight text-on-surface">Tenants</h1>
+            <p className="font-medium text-on-surface-variant">Manage organizational isolation and governance boundaries.</p>
           </div>
-          <button className="btn-primary flex items-center gap-2">
+          <button type="button" className="btn-primary flex items-center gap-2">
             <Plus size={18} /> Provision Tenant
           </button>
         </header>
 
-        <div className="grid grid-cols-3 gap-8 mb-12">
+        <div className="mb-12 grid grid-cols-3 gap-8">
           {[
-            { label: "Total Tenants", value: "42", icon: Users, color: "text-midnight" },
-            { label: "Active Nodes", value: "156", icon: Globe, color: "text-emerald-500" },
-            { label: "Security Audits", value: "100%", icon: Shield, color: "text-indigo-500" },
+            { label: "Total Tenants", value: "42", icon: Users, color: "text-on-surface" },
+            { label: "Active Nodes", value: "156", icon: Globe, color: "text-emerald-400" },
+            { label: "Security Audits", value: "100%", icon: Shield, color: "text-indigo-300" },
           ].map((m, i) => (
             <div key={i} className="glass-panel p-8">
-              <div className="flex items-center justify-between mb-4">
-                <p className="text-[10px] font-bold text-pastel-pink uppercase tracking-[0.2em]">{m.label}</p>
-                <m.icon size={16} className="text-slate-300" />
+              <div className="mb-4 flex items-center justify-between">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-primary">{m.label}</p>
+                <m.icon size={16} className="text-on-surface-variant" />
               </div>
-              <p className={`text-xl font-display font-semibold tracking-tighter ${m.color}`}>{m.value}</p>
+              <p className={`font-display text-xl font-semibold tracking-tight ${m.color}`}>{m.value}</p>
             </div>
           ))}
         </div>
 
         <div className="glass-panel overflow-hidden">
-          <div className="p-5 border-b border-slate-200/50 flex items-center justify-between bg-white/20">
-            <div className="relative group">
-              <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
-              <input 
-                type="text" 
-                placeholder="Search tenants..." 
-                className="pl-11 pr-5 py-2 bg-white/20 border border-slate-200 rounded-xl text-xs outline-none focus:ring-2 focus:ring-pastel-purple/10 w-64 text-midnight placeholder:text-slate-200"
+          <div className="flex items-center justify-between border-b border-outline-variant/15 bg-surface-container-low p-5">
+            <div className="group relative">
+              <Search size={16} className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 text-on-surface-variant" />
+              <input
+                type="text"
+                placeholder="Search tenants..."
+                className="w-64 border-0 border-b-2 border-outline/40 bg-transparent py-2 pl-8 text-xs text-on-surface outline-none transition-colors duration-150 placeholder:text-on-surface-variant/50 focus:border-primary"
               />
             </div>
-            <button className="p-2.5 text-slate-400 hover:bg-slate-50 rounded-xl transition-all">
+            <button
+              type="button"
+              className="p-2.5 text-on-surface-variant transition-colors duration-150 hover:bg-surface-container-high"
+            >
               <MoreVertical size={20} />
             </button>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full border-collapse text-left">
               <thead>
-                <tr className="bg-white/10">
-                  <th className="px-8 py-4 text-[10px] font-bold text-pink-300 uppercase tracking-[0.2em]">Organization</th>
-                  <th className="px-8 py-4 text-[10px] font-bold text-pink-300 uppercase tracking-[0.2em]">Domain</th>
-                  <th className="px-8 py-4 text-[10px] font-bold text-pink-300 uppercase tracking-[0.2em]">Status</th>
-                  <th className="px-8 py-4 text-[10px] font-bold text-pink-300 uppercase tracking-[0.2em]">Users</th>
-                  <th className="px-8 py-4 text-[10px] font-bold text-pink-300 uppercase tracking-[0.2em]">Region</th>
+                <tr className="bg-surface-container-low">
+                  <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Organization</th>
+                  <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Domain</th>
+                  <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Status</th>
+                  <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Users</th>
+                  <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Region</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-200/50">
+              <tbody className="divide-y divide-outline-variant/15">
                 {mockTenants.map((tenant) => (
-                  <tr key={tenant.id} className="group hover:bg-white/40 transition-all cursor-pointer">
+                  <tr
+                    key={tenant.id}
+                    className="group cursor-pointer transition-colors duration-150 hover:bg-surface-container-low/60"
+                  >
                     <td className="px-8 py-6">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-slate-50 flex items-center justify-center text-slate-300 font-bold text-xs border border-slate-100">
+                        <div className="flex h-8 w-8 items-center justify-center border border-outline-variant/15 bg-surface-container-high text-xs font-bold text-on-surface-variant">
                           {tenant.name[0]}
                         </div>
-                        <span className="text-sm font-bold text-midnight">{tenant.name}</span>
+                        <span className="text-sm font-bold text-on-surface">{tenant.name}</span>
                       </div>
                     </td>
                     <td className="px-8 py-6">
-                      <span className="text-sm text-pastel-purple font-mono">{tenant.domain}</span>
+                      <span className="font-mono text-sm text-primary">{tenant.domain}</span>
                     </td>
                     <td className="px-8 py-6">
                       <StatusBadge status={tenant.status} />
                     </td>
                     <td className="px-8 py-6">
-                      <span className="text-sm font-semibold text-midnight">{tenant.users}</span>
+                      <span className="text-sm font-semibold text-on-surface">{tenant.users}</span>
                     </td>
                     <td className="px-8 py-6">
-                      <span className="text-xs text-pastel-pink font-bold uppercase tracking-widest">{tenant.region}</span>
+                      <span className="text-xs font-bold uppercase tracking-widest text-primary">{tenant.region}</span>
                     </td>
                   </tr>
                 ))}

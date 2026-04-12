@@ -1,0 +1,180 @@
+export type AppSectionId =
+  | "overview"
+  | "marketing-studio"
+  | "marketing-economics"
+  | "tenants"
+  | "api-keys"
+  | "usage-billing"
+  | "providers-routing"
+  | "cache-performance"
+  | "requests-logs-traces"
+  | "security-policy-pii"
+  | "system-health"
+  | "settings";
+
+export interface SurfaceDefinition {
+  id: AppSectionId;
+  title: string;
+  navLabel: string;
+  path: string;
+  description: string;
+  routeKey?:
+    | "tenantsPath"
+    | "apiKeysPath"
+    | "usageBillingPath"
+    | "providersRoutingPath"
+    | "cachePerformancePath"
+    | "requestsLogsTracesPath"
+    | "securityPolicyPath"
+    | "settingsPath";
+  notes: string[];
+}
+
+export const surfaceDefinitions: SurfaceDefinition[] = [
+  {
+    id: "marketing-studio",
+    title: "Marketing Studio",
+    navLabel: "Marketing Studio",
+    path: "/app/marketing-studio",
+    description: "Independent content generation workspace for campaign and messaging drafts, separate from CRM records and pipeline state.",
+    notes: [
+      "Includes six standalone generators with independent schema, prompt orchestration, draft state, version history, and export actions.",
+      "Does not auto-sync outputs into CRM objects or imply account-record persistence.",
+      "Architecture is prepared for later vertical templates, brand kits, and approval workflows without altering existing CRM surfaces.",
+    ],
+  },
+  {
+    id: "marketing-economics",
+    title: "Marketing Economics",
+    navLabel: "Economics",
+    path: "/app/marketing-economics",
+    description: "Unit economics for Marketing Studio activity, rolled up from real server-side generation, acceptance, and export events.",
+    notes: [
+      "Shows cost per draft, cost per accepted asset, and cost per channel package from the backend ledger.",
+      "Uses server-side marketing activity records instead of local UI estimates.",
+      "Remains isolated from CRM objects and pipeline metrics.",
+    ],
+  },
+  {
+    id: "overview",
+    title: "Overview",
+    navLabel: "Overview",
+    path: "/app/overview",
+    description: "Operator-facing posture, environment wiring, and deployment readiness for the FullStack control plane.",
+    notes: [
+      "Summarizes runtime configuration instead of inventing metrics.",
+      "Reflects whether backend surfaces are actually mapped in fs-ai or deployment env vars.",
+    ],
+  },
+  {
+    id: "tenants",
+    title: "Tenants",
+    navLabel: "Tenants",
+    path: "/app/tenants",
+    description: "Tenant and membership visibility sourced from the platform when a tenant route exists.",
+    routeKey: "tenantsPath",
+    notes: [
+      "Expected to map to tenant CRUD and membership routes in fs-ai.",
+      "No tenant contract exists in the current fs-ai repo snapshot.",
+    ],
+  },
+  {
+    id: "api-keys",
+    title: "API Keys",
+    navLabel: "API Keys",
+    path: "/app/api-keys",
+    description: "Key inventory, rotation, and revocation once the platform exposes key management routes.",
+    routeKey: "apiKeysPath",
+    notes: [
+      "Designed for create, rotate, revoke, and disable flows.",
+      "Actions remain intentionally absent until fs-ai implements the underlying endpoints.",
+    ],
+  },
+  {
+    id: "usage-billing",
+    title: "Usage and Billing",
+    navLabel: "Usage + Billing",
+    path: "/app/usage-billing",
+    description: "Real usage summaries and billing signals when the platform starts emitting them.",
+    routeKey: "usageBillingPath",
+    notes: [
+      "No synthetic revenue or usage charts are rendered.",
+      "If configured, the raw endpoint response is surfaced directly.",
+    ],
+  },
+  {
+    id: "providers-routing",
+    title: "Providers and Routing",
+    navLabel: "Providers",
+    path: "/app/providers-routing",
+    description: "Model/provider routing policy and failover visibility for the FullStack platform.",
+    routeKey: "providersRoutingPath",
+    notes: [
+      "Built to host real provider policy data once fs-ai exposes it.",
+      "Arkham is not treated as a provider; it remains a sidecar operational service.",
+    ],
+  },
+  {
+    id: "cache-performance",
+    title: "Cache and Performance",
+    navLabel: "Cache",
+    path: "/app/cache-performance",
+    description: "Cache posture, latency envelopes, and performance visibility sourced from the platform.",
+    routeKey: "cachePerformancePath",
+    notes: [
+      "Avoids fake hit rates or latency graphs.",
+      "Can display real payloads from platform cache or performance endpoints when available.",
+    ],
+  },
+  {
+    id: "requests-logs-traces",
+    title: "Requests, Logs, and Traces",
+    navLabel: "Requests",
+    path: "/app/requests-logs-traces",
+    description: "Traceability for request flow, operator actions, and backend execution history.",
+    routeKey: "requestsLogsTracesPath",
+    notes: [
+      "Built for request history, traces, and logs once fs-ai provides those records.",
+      "The view shows raw records rather than invented trace lines.",
+    ],
+  },
+  {
+    id: "security-policy-pii",
+    title: "Security, Policy, and PII",
+    navLabel: "Security",
+    path: "/app/security-policy-pii",
+    description: "Policy enforcement, PII boundaries, and security controls for operator workflows.",
+    routeKey: "securityPolicyPath",
+    notes: [
+      "This is where policy and privacy routes should land when implemented in fs-ai.",
+      "Arkham-specific policy concerns are scoped as sidecar dependencies, not primary branding.",
+    ],
+  },
+  {
+    id: "system-health",
+    title: "System Health",
+    navLabel: "Health",
+    path: "/app/system-health",
+    description: "Live probes for FullStack platform readiness and Arkham sidecar availability.",
+    notes: [
+      "Uses configured health and readiness endpoints rather than local mock data.",
+      "This is the main surface where Arkham appears in the product UI.",
+    ],
+  },
+  {
+    id: "settings",
+    title: "Settings",
+    navLabel: "Settings",
+    path: "/app/settings",
+    description: "Deployment, auth, CORS, and runtime assumptions for the FullStack operator environment.",
+    routeKey: "settingsPath",
+    notes: [
+      "Exposes deployment assumptions and env wiring rather than pretend toggle controls.",
+      "Pairs with DEPLOYMENT_NOTES.md and SIDECAR_NOTES.md for production rollout.",
+    ],
+  },
+];
+
+export const surfaceDefinitionMap = Object.fromEntries(
+  surfaceDefinitions.map((surface) => [surface.id, surface]),
+) as Record<AppSectionId, SurfaceDefinition>;

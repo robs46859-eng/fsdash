@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "arkham-492414"
+  },
+  "targets": {
+    "arkham-492414": {
+      "hosting": {
+        "fullstack": [
+          "fullstack-arkhamprison-com"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

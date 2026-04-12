@@ -1,5 +1,5 @@
 {
-  "name": "FullStack — Governed Execution Dashboard",
-  "description": "A modern SaaS dashboard for controlled outbound actions through approval, execution, and delivery with a minimal glassmorphism UI.",
+  "name": "FullStack Operator UI",
+  "description": "Deploy-ready FullStack operator interface for the fs-ai platform, with Arkham isolated as a sidecar service.",
   "requestFramePermissions": []
 }

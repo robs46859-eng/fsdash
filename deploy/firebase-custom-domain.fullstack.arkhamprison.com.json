@@ -1,0 +1,65 @@
+{
+  "fetchedAt": "2026-04-10T16:53:00Z",
+  "source": "firebasehosting.googleapis.com v1beta1 projects.sites.customDomains.get",
+  "verificationSummary": {
+    "customDomain": "fullstack.arkhamprison.com",
+    "hostingSiteId": "fullstack-arkhamprison-com",
+    "firebaseProject": "arkham-492414",
+    "hostState": "HOST_ACTIVE",
+    "ownershipState": "OWNERSHIP_ACTIVE",
+    "certificateState": "CERT_PROPAGATING",
+    "acmeTxtDiscoveredMatchesDesired": true,
+    "notes": "Firebase reports hosting and ownership active. Certificate was CERT_PROPAGATING at fetch time; recheck API until cert.state is stable. Public dig from this environment was inconclusive (resolver timeout)."
+  },
+  "apiResponse": {
+    "name": "projects/arkham-492414/sites/fullstack-arkhamprison-com/customDomains/fullstack.arkhamprison.com",
+    "createTime": "2026-04-10T16:24:57.319275798Z",
+    "updateTime": "2026-04-10T16:24:57.319275871Z",
+    "etag": "W/\"1775838297\"",
+    "hostState": "HOST_ACTIVE",
+    "ownershipState": "OWNERSHIP_ACTIVE",
+    "certPreference": "PROJECT_GROUPED",
+    "cert": {
+      "type": "TEMPORARY",
+      "state": "CERT_PROPAGATING",
+      "verification": {
+        "dns": {
+          "discovered": [
+            {
+              "domainName": "_acme-challenge.fullstack.arkhamprison.com",
+              "records": [
+                {
+                  "domainName": "_acme-challenge.fullstack.arkhamprison.com",
+                  "type": "TXT",
+                  "rdata": "7wooaEud9-q2x8HYugk470fGq3dUP4stTosEJwMR9FQ"
+                }
+              ]
+            }
+          ],
+          "desired": [
+            {
+              "domainName": "_acme-challenge.fullstack.arkhamprison.com",
+              "records": [
+                {
+                  "domainName": "_acme-challenge.fullstack.arkhamprison.com",
+                  "type": "TXT",
+                  "rdata": "7wooaEud9-q2x8HYugk470fGq3dUP4stTosEJwMR9FQ",
+                  "requiredAction": "ADD"
+                }
+              ]
+            }
+          ],
+          "checkTime": "2026-04-10T16:46:01.045627655Z"
+        },
+        "http": {
+          "path": "/.well-known/acme-challenge/UF2UHTDxp_LLjevcRdgWzbK9_70rw9kT6qg-8n4EaiAipBKEqGC9nRJJ00zBfZdm",
+          "desired": "UF2UHTDxp_LLjevcRdgWzbK9_70rw9kT6qg-8n4EaiAipBKEqGC9nRJJ00zBfZdm.M0-GObbb5ePi63ASQsPKBrDqfgayGnOWpyrEF0nHqug",
+          "discovered": "UF2UHTDxp_LLjevcRdgWzbK9_70rw9kT6qg-8n4EaiAipBKEqGC9nRJJ00zBfZdm.M0-GObbb5ePi63ASQsPKBrDqfgayGnOWpyrEF0nHqug",
+          "lastCheckTime": "2026-04-10T16:46:01.045627655Z"
+        }
+      },
+      "createTime": "2026-04-10T15:46:07Z",
+      "expireTime": "2026-07-09T16:24:56Z"
+    }
+  }
+}
