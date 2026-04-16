@@ -11,7 +11,10 @@
     "lint": "tsc --noEmit",
     "grunt": "grunt",
     "grunt:dev": "grunt dev",
-    "grunt:build": "grunt build"
+    "grunt:build": "grunt build",
+    "env:schema": "node scripts/validate-env.js --schema-only",
+    "env:validate": "node scripts/validate-env.js",
+    "env:sync:render": "node scripts/sync-render-env.js"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.14",

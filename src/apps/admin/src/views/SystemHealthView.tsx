@@ -20,8 +20,7 @@ export function SystemHealthView({ runtime }: SystemHealthViewProps) {
       runtime.arkham.enabled
         ? probeHealthEndpoint(
             `${runtime.arkham.label} sidecar`,
-            runtime.arkham.healthPath,
-            runtime.arkham.baseUrl,
+            "/api/v1/sidecar/health",  // backend proxy — avoids browser CORS to Cloud Run
           )
         : Promise.resolve({
             label: `${runtime.arkham.label} sidecar`,

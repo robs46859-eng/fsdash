@@ -71,11 +71,11 @@ export const surfaceDefinitions: SurfaceDefinition[] = [
     title: "Tenants",
     navLabel: "Tenants",
     path: "/app/tenants",
-    description: "Tenant and membership visibility sourced from the platform when a tenant route exists.",
+    description: "Full tenant CRUD and membership management backed by live fs-ai routes.",
     routeKey: "tenantsPath",
     notes: [
-      "Expected to map to tenant CRUD and membership routes in fs-ai.",
-      "No tenant contract exists in the current fs-ai repo snapshot.",
+      "Supports create, view, archive, and member management via POST /api/v1/tenants and related routes.",
+      "Membership roles are operator-assignable per tenant; archive is a soft-delete (status change, not DELETE).",
     ],
   },
   {
@@ -107,11 +107,11 @@ export const surfaceDefinitions: SurfaceDefinition[] = [
     title: "Providers and Routing",
     navLabel: "Providers",
     path: "/app/providers-routing",
-    description: "Model/provider routing policy and failover visibility for the FullStack platform.",
+    description: "Full provider catalog management — 15 built-in providers, custom provider support, per-tenant model selection.",
     routeKey: "providersRoutingPath",
     notes: [
-      "Built to host real provider policy data once fs-ai exposes it.",
-      "Arkham is not treated as a provider; it remains a sidecar operational service.",
+      "Operators configure API keys and enable providers; tenants select their preferred provider and model.",
+      "Routing enforces tenant preferences at generation time with env-based fallback.",
     ],
   },
   {
