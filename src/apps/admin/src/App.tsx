@@ -8,6 +8,8 @@ import { MarketingStudioView } from "./views/MarketingStudioView";
 import { MarketingEconomicsView } from "./views/MarketingEconomicsView";
 import { OverviewView } from "./views/OverviewView";
 import { ResourceSurfaceView } from "./views/ResourceSurfaceView";
+import { TenantsView } from "./views/TenantsView";
+import { ProvidersView } from "./views/ProvidersView";
 import { SystemHealthView } from "./views/SystemHealthView";
 import { SettingsView } from "./views/SettingsView";
 import {
@@ -26,6 +28,7 @@ import { runtimeConfig } from "../../../lib/runtime";
 import { buildEndpoint, fetchEndpointData } from "../../../lib/platform";
 import {
   clearOperatorBearerToken,
+  getOperatorBearerToken,
   setOperatorBearerToken,
 } from "../../../lib/operatorAuth";
 import {
@@ -209,13 +212,106 @@ export default function App() {
     setSessionRefreshIndex((current) => current + 1);
   }
 
+  async function handleCustomerLogin(email: string, password: string) {
+    const endpoint = buildEndpoint("/api/v1/auth/login");
+    if (!endpoint) {
+      throw new Error("The auth endpoint is not configured.");
+    }
+    const response = await fetch(endpoint, {
+      method: "POST",
+      credentials: "include",
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const payload = (await response.json().catch(() => undefined)) as
+      | { bearer_token?: string; error?: { message?: string } }
+      | undefined;
+    if (!response.ok) {
+      throw new Error(payload?.error?.message ?? `Login failed (HTTP ${response.status}).`);
+    }
+    if (!payload?.bearer_token) {
+      throw new Error("Login succeeded but no bearer token was returned.");
+    }
+    setOperatorBearerToken(payload.bearer_token);
+    setSessionRefreshIndex((c) => c + 1);
+  }
+
+  async function handleCustomerSignup(email: string, password: string) {
+    const endpoint = buildEndpoint("/api/v1/auth/signup");
+    if (!endpoint) {
+      throw new Error("The auth endpoint is not configured.");
+    }
+    const response = await fetch(endpoint, {
+      method: "POST",
+      credentials: "include",
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const payload = (await response.json().catch(() => undefined)) as
+      | { bearer_token?: string; error?: { message?: string } }
+      | undefined;
+    if (!response.ok) {
+      throw new Error(payload?.error?.message ?? `Signup failed (HTTP ${response.status}).`);
+    }
+    if (!payload?.bearer_token) {
+      throw new Error("Signup succeeded but no bearer token was returned.");
+    }
+    setOperatorBearerToken(payload.bearer_token);
+    setSessionRefreshIndex((c) => c + 1);
+  }
+
   async function handleClearOperatorSession() {
+    const token = getOperatorBearerToken();
+    if (token) {
+      const endpoint = buildEndpoint("/api/v1/session");
+      if (endpoint) {
+        // Best-effort — always clear the local token even if the request fails.
+        await fetch(endpoint, {
+          method: "DELETE",
+          credentials: "omit",
+          headers: { Accept: "application/json", Authorization: `Bearer ${token}` },
+        }).catch(() => undefined);
+      }
+    }
     clearOperatorBearerToken();
     setSession({
       state: "unauthenticated",
-      message: "Operator bearer token cleared from this browser.",
+      message: "Session cleared.",
     });
     setSessionRefreshIndex((current) => current + 1);
+  }
+
+  async function handleForgotPassword(email: string): Promise<string | undefined> {
+    const endpoint = buildEndpoint("/api/v1/auth/forgot-password");
+    if (!endpoint) throw new Error("Auth endpoint not configured.");
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify({ email }),
+    });
+    const payload = (await response.json().catch(() => undefined)) as
+      | { reset_token?: string; message?: string; error?: { message?: string } }
+      | undefined;
+    if (!response.ok) {
+      throw new Error(payload?.error?.message ?? `Request failed (HTTP ${response.status}).`);
+    }
+    return payload?.reset_token;
+  }
+
+  async function handleResetPassword(token: string, newPassword: string): Promise<void> {
+    const endpoint = buildEndpoint("/api/v1/auth/reset-password");
+    if (!endpoint) throw new Error("Auth endpoint not configured.");
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: { Accept: "application/json", "Content-Type": "application/json" },
+      body: JSON.stringify({ token, new_password: newPassword }),
+    });
+    const payload = (await response.json().catch(() => undefined)) as
+      | { error?: { message?: string } }
+      | undefined;
+    if (!response.ok) {
+      throw new Error(payload?.error?.message ?? `Reset failed (HTTP ${response.status}).`);
+    }
   }
 
   if (route.kind === "landing") {
@@ -237,6 +333,10 @@ export default function App() {
         actorEmail={session.state === "authenticated" ? session.actorEmail : undefined}
         authSource={session.state === "authenticated" ? session.authSource : undefined}
         onBootstrapLogin={handleBootstrapLogin}
+        onCustomerLogin={handleCustomerLogin}
+        onCustomerSignup={handleCustomerSignup}
+        onForgotPassword={handleForgotPassword}
+        onResetPassword={handleResetPassword}
         onClearOperatorSession={handleClearOperatorSession}
         onOpenApp={() => navigate("/app/overview")}
       />
@@ -253,6 +353,10 @@ export default function App() {
         actorEmail={session.state === "authenticated" ? session.actorEmail : undefined}
         authSource={session.state === "authenticated" ? session.authSource : undefined}
         onBootstrapLogin={handleBootstrapLogin}
+        onCustomerLogin={handleCustomerLogin}
+        onCustomerSignup={handleCustomerSignup}
+        onForgotPassword={handleForgotPassword}
+        onResetPassword={handleResetPassword}
         onClearOperatorSession={handleClearOperatorSession}
         onOpenApp={() => navigate("/app/overview")}
       />
@@ -280,13 +384,7 @@ export default function App() {
       content = <MarketingEconomicsView />;
       break;
     case "tenants":
-      content = (
-        <ResourceSurfaceView
-          icon={sectionIcons["tenants"]}
-          runtime={runtimeConfig}
-          surface={currentSurface}
-        />
-      );
+      content = <TenantsView />;
       break;
     case "api-keys":
       content = (
@@ -307,13 +405,7 @@ export default function App() {
       );
       break;
     case "providers-routing":
-      content = (
-        <ResourceSurfaceView
-          icon={sectionIcons["providers-routing"]}
-          runtime={runtimeConfig}
-          surface={currentSurface}
-        />
-      );
+      content = <ProvidersView />;
       break;
     case "cache-performance":
       content = (

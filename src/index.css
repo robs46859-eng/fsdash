@@ -1,69 +1,93 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700;800&display=swap");
 @import "tailwindcss";
 
-/* DESIGNMASTER.md — Industrial Precision & Retro-Futurism ("The Kinetic Monolith") */
+/* DESIGNMASTER.md — Dark Studio / Gold Filament ("The Kinetic Monolith") */
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Bebas Neue", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "DM Mono", ui-monospace, monospace;
 
-  /* Surfaces — cooler slate-grey instead of near-black */
-  --color-surface: #34404d;
-  --color-surface-container-low: #3d4a58;
-  --color-surface-container-lowest: #303b47;
-  --color-surface-container-high: #475666;
-  --color-surface-container-highest: #536476;
+  /* Surfaces — near-black studio palette */
+  --color-surface: #080808;
+  --color-surface-container-low: #0f0f0f;
+  --color-surface-container-lowest: #080808;
+  --color-surface-container-high: #141414;
+  --color-surface-container-highest: #1a1a1a;
 
-  --color-on-surface: #e8e6e3;
-  --color-on-surface-variant: #c5ced8;
+  --color-on-surface: #e8e4dc;
+  --color-on-surface-variant: #5a5650;
 
-  --color-primary: #ffb59f;
-  --color-primary-container: #ff7043;
-  --color-on-primary: #ffffff;
+  --color-primary: #C68346;
+  --color-primary-accent: #C68346;
+  --color-secondary-accent: #DDDB4A;
+  --color-primary-container: #DDDB4A;
+  --color-on-primary: #080808;
 
-  --color-outline: #7f8b99;
-  --color-outline-variant: #6b7683;
+  --color-outline: #333333;
+  --color-outline-variant: #222222;
 
-  --color-error: #ffb4ab;
-  --color-on-error: #690005;
+  --color-error: #4684C7;
+  --color-on-error: #080808;
 
-  /* Legacy token aliases → map to DS (for gradual migration in TSX) */
-  --color-midnight: #e8e6e3;
-  --color-slate-dark: #e8e6e3;
-  --color-primary-accent: #ff7043;
-  --color-secondary-accent: #ff7043;
-  --color-pastel-pink: #ffb59f;
-  --color-pastel-purple: #ff7043;
-  --color-pastel-orange: #ff7043;
-  --color-lilac: #3d4a58;
-  --color-pastel-yellow: #3d4a58;
-  --color-lavender: #34404d;
-  --color-mist-blue: #3d4a58;
-  --color-pale-peach: #475666;
-  --color-mint-haze: #34404d;
+  /* Status Colors */
+  --color-red: #4684C7;
+  --color-green: #46C7B8;
+
+  /* Legacy token aliases → map to DS */
+  --color-midnight: #e8e4dc;
+  --color-slate-dark: #e8e4dc;
+  --color-primary-accent: #C68346;
+  --color-secondary-accent: #DDDB4A;
+  --color-pastel-pink: #C68346;
+  --color-pastel-purple: #C68346;
+  --color-pastel-orange: #C68346;
+  --color-lilac: #141414;
+  --color-pastel-yellow: #C68346;
+  --color-lavender: #080808;
+  --color-mist-blue: #141414;
+  --color-pale-peach: #1a1a1a;
+  --color-mint-haze: #0f0f0f;
 }
 
 @layer base {
   html {
     @apply antialiased;
     font-variant-numeric: tabular-nums;
+    cursor: none;
   }
 
   body {
     @apply bg-surface text-on-surface font-sans;
-    background-image: linear-gradient(180deg, #3a4755 0%, var(--color-surface) 48%, #2f3944 100%);
+    background-color: #080808;
     transition: background-color 150ms cubic-bezier(0, 0, 0.2, 1);
   }
 
-  /* Subtle grain on dark surfaces (3–5% opacity) */
+  /* Grain noise overlay — matches temp.html studio aesthetic */
   body::before {
     content: "";
     pointer-events: none;
     position: fixed;
     inset: 0;
-    z-index: 0;
-    opacity: 0.04;
+    z-index: 9998;
+    opacity: 0.035;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Scanline overlay */
+  body::after {
+    content: "";
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9997;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.03) 2px,
+      rgba(0, 0, 0, 0.03) 4px
+    );
   }
 
   #root {
@@ -71,35 +95,71 @@
     z-index: 1;
   }
 
+  /* Custom cursor */
+  #fs-cursor {
+    pointer-events: none;
+    position: fixed;
+    width: 8px;
+    height: 8px;
+    background: #e8c547;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99999;
+    transition: transform 0.05s linear;
+  }
+
+  #fs-cursor-ring {
+    pointer-events: none;
+    position: fixed;
+    width: 28px;
+    height: 28px;
+    border: 1px solid rgba(232, 197, 71, 0.5);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 99998;
+    transition: transform 0.12s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
+  }
+
   ::selection {
-    @apply bg-primary-container/30 text-on-surface;
+    background: rgba(232, 197, 71, 0.15);
+    color: #e8e4dc;
+  }
+
+  /* DM Mono for all monospace elements */
+  code, kbd, samp, pre, .font-mono {
+    font-family: "DM Mono", ui-monospace, monospace;
   }
 }
 
 @layer components {
-  /* Panels: depth via tonal shift — no 1px layout borders */
+  /* Panels: depth via border-defined cells — matches temp.html panel style */
   .ds-panel {
     @apply bg-surface-container-high text-on-surface;
+    border: 1px solid #222222;
   }
 
   .ds-panel-inset {
     @apply bg-surface-container-low text-on-surface;
+    border: 1px solid #1a1a1a;
   }
 
   .ds-panel-raised {
     @apply bg-surface-container-highest text-on-surface;
+    border: 1px solid #333333;
   }
 
-  /* Ghost border only when needed (15% outline-variant) */
+  /* Ghost border */
   .ds-ghost-border {
-    @apply outline outline-1 -outline-offset-1 outline-outline-variant/15;
+    border: 1px solid #222222;
   }
 
-  /* Primary CTA — gradient filament 45° */
+  /* Primary CTA — gold filament, square corners */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-5 py-2.5 text-on-primary font-semibold uppercase tracking-widest text-[11px];
+    @apply inline-flex items-center justify-center px-5 py-2.5 font-semibold uppercase tracking-widest text-[11px];
     border-radius: 0;
-    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-container) 100%);
+    background: #e8c547;
+    color: #080808;
+    font-family: "DM Mono", monospace;
     transition:
       background 150ms cubic-bezier(0, 0, 0.2, 1),
       box-shadow 150ms cubic-bezier(0, 0, 0.2, 1),
@@ -107,64 +167,109 @@
   }
 
   .btn-primary:hover:not(:disabled) {
-    box-shadow: 0 0 0 1px var(--color-primary), 0 0 24px rgba(255, 112, 67, 0.35);
+    background: #f0d060;
+    box-shadow: 0 0 0 1px #e8c547, 0 0 24px rgba(232, 197, 71, 0.25);
   }
 
   .btn-primary:disabled {
-    @apply cursor-not-allowed opacity-50;
+    @apply cursor-not-allowed opacity-40;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-5 py-2.5 uppercase tracking-widest text-[11px] font-semibold text-primary;
+    @apply inline-flex items-center justify-center px-5 py-2.5 uppercase tracking-widest text-[11px] font-semibold;
     border-radius: 0;
     background: transparent;
-    outline: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent);
+    color: #e8c547;
+    border: 1px solid rgba(232, 197, 71, 0.25);
+    font-family: "DM Mono", monospace;
     transition:
       background 150ms cubic-bezier(0, 0, 0.2, 1),
-      outline-color 150ms cubic-bezier(0, 0, 0.2, 1);
+      border-color 150ms cubic-bezier(0, 0, 0.2, 1);
   }
 
   .btn-secondary:hover:not(:disabled) {
-    @apply bg-surface-container-high;
+    background: rgba(232, 197, 71, 0.06);
+    border-color: rgba(232, 197, 71, 0.5);
   }
 
   .btn-minimal {
-    @apply px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-on-surface-variant;
+    @apply px-3 py-1.5 text-xs font-semibold uppercase tracking-widest;
     border-radius: 0;
+    color: #5a5650;
     border-bottom: 1px solid transparent;
+    font-family: "DM Mono", monospace;
     transition: border-color 150ms cubic-bezier(0, 0, 0.2, 1), color 150ms cubic-bezier(0, 0, 0.2, 1);
   }
 
   .btn-minimal:hover {
-    @apply text-primary border-primary/40;
+    color: #e8c547;
+    border-color: rgba(232, 197, 71, 0.4);
   }
 
-  /* Data port inputs — bottom bar only */
+  /* Data port inputs — bottom bar only, gold focus */
   .ds-input {
-    @apply w-full bg-surface-container-highest text-on-surface px-0 py-3 border-0 border-b-2 border-outline/40;
+    @apply w-full px-0 py-3 border-0 border-b-2;
+    background: transparent;
+    color: #e8e4dc;
+    border-color: #333333;
     border-radius: 0;
+    font-family: "DM Mono", monospace;
+    font-size: 0.875rem;
     transition:
       border-color 150ms cubic-bezier(0, 0, 0.2, 1),
       background-color 150ms cubic-bezier(0, 0, 0.2, 1);
   }
 
   .ds-input:focus {
-    @apply outline-none border-primary bg-surface-container-high;
+    outline: none;
+    border-color: #e8c547;
+    background: rgba(232, 197, 71, 0.03);
   }
 
   .ds-input::placeholder {
-    @apply text-on-surface-variant;
+    color: #5a5650;
   }
 
+  /* Bebas Neue display class */
   .font-display {
-    font-family: var(--font-display);
-    letter-spacing: 0.02em;
+    font-family: "Bebas Neue", ui-sans-serif, system-ui, sans-serif;
+    letter-spacing: 0.04em;
+  }
+
+  /* Feature card hover — gold top accent bar (matches temp.html) */
+  .ds-card-hover {
+    position: relative;
+    transition: border-color 200ms ease;
+  }
+
+  .ds-card-hover::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e8c547;
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  .ds-card-hover:hover::before {
+    opacity: 1;
+  }
+
+  .ds-card-hover:hover {
+    border-color: rgba(232, 197, 71, 0.2);
   }
 
   /* Glass overlay for floating UI */
   .ds-glass {
-    @apply bg-surface-container-highest/70 backdrop-blur-[20px] text-on-surface;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    background: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    color: #e8e4dc;
+    border: 1px solid #222222;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
   }
 
   /* Zebra list rows */
@@ -178,20 +283,83 @@
 
   /* Ambient float shadow (menus) */
   .ds-float-shadow {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
   }
 
   /* Legacy aliases used across views */
   .glass-panel {
-    @apply rounded-none bg-surface-container-high text-on-surface outline outline-1 -outline-offset-1 outline-outline-variant/15;
+    background: #141414;
+    color: #e8e4dc;
+    border: 1px solid #222222;
+    border-radius: 0;
+    position: relative;
+    transition: border-color 200ms ease;
+  }
+
+  .glass-panel:hover {
+    border-color: #333333;
+  }
+
+  /* Gold top-bar on card hover */
+  .glass-panel.ds-card-hover::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #e8c547;
+    opacity: 0;
+    transition: opacity 200ms ease;
+  }
+
+  .glass-panel.ds-card-hover:hover::before {
+    opacity: 1;
   }
 
   .solid-panel {
-    @apply rounded-none bg-surface-container-highest text-on-surface outline outline-1 -outline-offset-1 outline-outline-variant/15;
+    background: #1a1a1a;
+    color: #e8e4dc;
+    border: 1px solid #222222;
+    border-radius: 0;
   }
 
   .glass-overlay {
-    @apply bg-surface-container-highest/70 text-on-surface backdrop-blur-[20px];
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    background: rgba(20, 20, 20, 0.85);
+    color: #e8e4dc;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+  }
+
+  /* Status badge gold accent */
+  .status-active {
+    color: #47e87a;
+    background: rgba(71, 232, 122, 0.08);
+    border: 1px solid rgba(71, 232, 122, 0.2);
+  }
+
+  .status-error {
+    color: #e84747;
+    background: rgba(232, 71, 71, 0.08);
+    border: 1px solid rgba(232, 71, 71, 0.2);
+  }
+
+  .status-pending {
+    color: #e8c547;
+    background: rgba(232, 197, 71, 0.08);
+    border: 1px solid rgba(232, 197, 71, 0.2);
+  }
+
+  /* Scroll reveal animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
