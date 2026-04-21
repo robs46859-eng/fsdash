@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "fullstack-arkhamprison-com",
+    "site": "fsai-pro",
     "public": "dist",
     "ignore": [
       "firebase.json",

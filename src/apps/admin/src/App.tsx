@@ -9,6 +9,11 @@ import { MarketingEconomicsView } from "./views/MarketingEconomicsView";
 import { OverviewView } from "./views/OverviewView";
 import { ResourceSurfaceView } from "./views/ResourceSurfaceView";
 import { TenantsView } from "./views/TenantsView";
+import { ApiKeysView } from "./views/ApiKeysView";
+import { RequestsView } from "./views/RequestsView";
+import { SecurityView } from "./views/SecurityView";
+import { PlaygroundView } from "./views/PlaygroundView";
+import { PromptLibraryView } from "./views/PromptLibraryView";
 import { ProvidersView } from "./views/ProvidersView";
 import { SystemHealthView } from "./views/SystemHealthView";
 import { SettingsView } from "./views/SettingsView";
@@ -16,11 +21,13 @@ import {
   Activity,
   Gauge,
   KeyRound,
+  Library,
   Megaphone,
   ReceiptText,
   Route,
   ScrollText,
   Shield,
+  Sparkles,
   Users,
   Wallet,
 } from "lucide-react";
@@ -53,6 +60,8 @@ const sectionIcons = {
   overview: Activity,
   "marketing-studio": Megaphone,
   "marketing-economics": ReceiptText,
+  playground: Sparkles,
+  "prompt-library": Library,
   tenants: Users,
   "api-keys": KeyRound,
   "usage-billing": Wallet,
@@ -383,17 +392,17 @@ export default function App() {
     case "marketing-economics":
       content = <MarketingEconomicsView />;
       break;
+    case "playground":
+      content = <PlaygroundView />;
+      break;
+    case "prompt-library":
+      content = <PromptLibraryView />;
+      break;
     case "tenants":
       content = <TenantsView />;
       break;
     case "api-keys":
-      content = (
-        <ResourceSurfaceView
-          icon={sectionIcons["api-keys"]}
-          runtime={runtimeConfig}
-          surface={currentSurface}
-        />
-      );
+      content = <ApiKeysView />;
       break;
     case "usage-billing":
       content = (
@@ -417,22 +426,10 @@ export default function App() {
       );
       break;
     case "requests-logs-traces":
-      content = (
-        <ResourceSurfaceView
-          icon={sectionIcons["requests-logs-traces"]}
-          runtime={runtimeConfig}
-          surface={currentSurface}
-        />
-      );
+      content = <RequestsView />;
       break;
     case "security-policy-pii":
-      content = (
-        <ResourceSurfaceView
-          icon={sectionIcons["security-policy-pii"]}
-          runtime={runtimeConfig}
-          surface={currentSurface}
-        />
-      );
+      content = <SecurityView />;
       break;
     case "system-health":
       content = <SystemHealthView runtime={runtimeConfig} />;

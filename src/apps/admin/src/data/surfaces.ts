@@ -2,6 +2,8 @@ export type AppSectionId =
   | "overview"
   | "marketing-studio"
   | "marketing-economics"
+  | "playground"
+  | "prompt-library"
   | "tenants"
   | "api-keys"
   | "usage-billing"
@@ -53,6 +55,30 @@ export const surfaceDefinitions: SurfaceDefinition[] = [
       "Shows cost per draft, cost per accepted asset, and cost per channel package from the backend ledger.",
       "Uses server-side marketing activity records instead of local UI estimates.",
       "Remains isolated from CRM objects and pipeline metrics.",
+    ],
+  },
+  {
+    id: "playground",
+    title: "AI Playground",
+    navLabel: "Playground",
+    path: "/app/playground",
+    description: "Interactive environment to test and compare prompts across multiple AI providers and models.",
+    notes: [
+      "Support for OpenAI-compatible and Anthropic models with custom parameters.",
+      "Live multi-turn chat testing for system prompts and message flows.",
+      "Direct visualization of token usage and provider response metadata.",
+    ],
+  },
+  {
+    id: "prompt-library",
+    title: "Prompt Library",
+    navLabel: "Prompts",
+    path: "/app/prompts",
+    description: "Manage, version, and deploy system prompts and templates across the platform.",
+    notes: [
+      "Full version history with rollback capabilities.",
+      "Variable injection support using {{variable}} syntax.",
+      "Tenant-scoped or platform-wide prompt visibility.",
     ],
   },
   {
