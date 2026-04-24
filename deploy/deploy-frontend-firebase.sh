@@ -2,7 +2,7 @@
 set -euo pipefail
 
 PROJECT_ID="${PROJECT_ID:-arkham-492414}"
-HOSTING_SITE="${HOSTING_SITE:-fullstack-arkhamprison-com}"
+HOSTING_SITE="${HOSTING_SITE:-fsai-pro}"
 
 echo "Project: ${PROJECT_ID}"
 echo "Hosting site: ${HOSTING_SITE}"

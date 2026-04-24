@@ -17,6 +17,7 @@ import { PromptLibraryView } from "./views/PromptLibraryView";
 import { ProvidersView } from "./views/ProvidersView";
 import { SystemHealthView } from "./views/SystemHealthView";
 import { SettingsView } from "./views/SettingsView";
+import { StelaraiControlPlaneView } from "./views/StelaraiControlPlaneView";
 import {
   Activity,
   Gauge,
@@ -28,6 +29,7 @@ import {
   ScrollText,
   Shield,
   Sparkles,
+  Orbit,
   Users,
   Wallet,
 } from "lucide-react";
@@ -58,6 +60,7 @@ type SessionState =
 
 const sectionIcons = {
   overview: Activity,
+  "stelarai-control-plane": Orbit,
   "marketing-studio": Megaphone,
   "marketing-economics": ReceiptText,
   playground: Sparkles,
@@ -385,6 +388,9 @@ export default function App() {
   switch (route.section) {
     case "overview":
       content = <OverviewView runtime={runtimeConfig} surfaces={surfaceDefinitions} />;
+      break;
+    case "stelarai-control-plane":
+      content = <StelaraiControlPlaneView />;
       break;
     case "marketing-studio":
       content = <MarketingStudioView />;

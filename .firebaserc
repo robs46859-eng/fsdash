@@ -7,6 +7,15 @@
       "hosting": {
         "fullstack": [
           "fsai-pro"
+        ],
+        "stelarai": [
+          "stelarai-tech"
+        ],
+        "solamaze": [
+          "solamaze-com"
+        ],
+        "getsemu": [
+          "getsemu-com"
         ]
       }
     }

@@ -80,7 +80,7 @@ export function LandingPage({
             <div className="glass-panel overflow-hidden p-8 md:p-10">
               <div className="mb-8 flex flex-wrap items-center gap-3">
                 <span className="bg-surface-container-low px-3 py-1 text-[10px] font-bold uppercase tracking-[0.24em] text-primary outline outline-1 -outline-offset-1 outline-primary/25">
-                  fullstack.arkhamprison.com
+                  {new URL(runtime.publicBaseUrl).host}
                 </span>
                 <span className="bg-surface-container-low px-3 py-1 text-[10px] font-bold uppercase tracking-[0.24em] text-on-surface-variant outline outline-1 -outline-offset-1 outline-outline-variant/15">
                   Arkham Sidecar Ready

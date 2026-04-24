@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "site": "fsai-pro",
+    "target": "fullstack",
     "public": "dist",
     "ignore": [
       "firebase.json",

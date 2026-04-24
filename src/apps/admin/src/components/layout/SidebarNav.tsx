@@ -4,7 +4,10 @@ import {
   Gauge,
   KeyRound,
   LayoutDashboard,
+  Library,
   Megaphone,
+  Orbit,
+  Sparkles,
   ReceiptText,
   Route,
   ScrollText,
@@ -20,8 +23,11 @@ import { AppSectionId, SurfaceDefinition } from "../../data/surfaces";
 
 const icons: Record<AppSectionId, React.ComponentType<{ size?: number; className?: string }>> = {
   overview: LayoutDashboard,
+  "stelarai-control-plane": Orbit,
   "marketing-studio": Megaphone,
   "marketing-economics": ReceiptText,
+  playground: Sparkles,
+  "prompt-library": Library,
   tenants: Users,
   "api-keys": KeyRound,
   "usage-billing": Wallet,

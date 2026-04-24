@@ -1,5 +1,6 @@
 export type AppSectionId =
   | "overview"
+  | "stelarai-control-plane"
   | "marketing-studio"
   | "marketing-economics"
   | "playground"
@@ -33,6 +34,18 @@ export interface SurfaceDefinition {
 }
 
 export const surfaceDefinitions: SurfaceDefinition[] = [
+  {
+    id: "stelarai-control-plane",
+    title: "StelarAI Control Plane",
+    navLabel: "StelarAI",
+    path: "/app/stelarai",
+    description: "Operator-facing control plane for the StelarAI workspace rollout, provider lanes, and module posture.",
+    notes: [
+      "Reads the StelarAI blueprint and persisted workspace inventory from fs-ai.",
+      "Acts as the integration seam between the domain plan, tenant model, and future builder surfaces.",
+      "Keeps the initial rollout measurable before adding drag-and-drop workflow editing.",
+    ],
+  },
   {
     id: "marketing-studio",
     title: "Marketing Studio",

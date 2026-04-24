@@ -53,7 +53,7 @@ export const runtimeConfig: RuntimeConfig = {
   brandLabel: "FullStack",
   publicBaseUrl:
     normalizeOptional(import.meta.env.VITE_FULLSTACK_PUBLIC_BASE_URL) ??
-    "https://fullstack.arkhamprison.com",
+    "https://fsai.pro",
   appBaseUrl: normalizeUrlPath(import.meta.env.VITE_FULLSTACK_APP_BASE_PATH, "/app"),
   apiBaseUrl: normalizeOptional(import.meta.env.VITE_FULLSTACK_API_BASE_URL) ?? "",
   authMode,
