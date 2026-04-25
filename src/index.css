@@ -1,53 +1,36 @@
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700;800&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ultra&family=Slabo+27px&family=DM+Mono:wght@400;500&display=swap");
 @import "tailwindcss";
 
-/* DESIGNMASTER.md — Dark Studio / Gold Filament ("The Kinetic Monolith") */
+/* PAPABASE DESIGN SYSTEM — Technical Command Center */
 
 @theme {
-  --font-sans: "Syne", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Bebas Neue", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Slabo 27px", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Ultra", serif;
   --font-mono: "DM Mono", ui-monospace, monospace;
 
-  /* Surfaces — near-black studio palette */
-  --color-surface: #080808;
-  --color-surface-container-low: #0f0f0f;
-  --color-surface-container-lowest: #080808;
-  --color-surface-container-high: #141414;
-  --color-surface-container-highest: #1a1a1a;
+  /* Surfaces — derived from technical palette */
+  --color-surface: #0A0D0E;
+  --color-surface-container-low: #121618;
+  --color-surface-container-lowest: #0A0D0E;
+  --color-surface-container-high: #1A2124;
+  --color-surface-container-highest: #242D31;
 
-  --color-on-surface: #e8e4dc;
-  --color-on-surface-variant: #5a5650;
+  --color-on-surface: #E8F1F2;
+  --color-on-surface-variant: #96C3CE;
 
-  --color-primary: #C68346;
-  --color-primary-accent: #C68346;
-  --color-secondary-accent: #DDDB4A;
-  --color-primary-container: #DDDB4A;
-  --color-on-primary: #080808;
+  /* Primary Brand Palette */
+  --color-primary: #73C1C6;
+  --color-primary-accent: #73C1C6;
+  --color-secondary-accent: #A79AB2;
+  --color-accent-pink: #B57BA6;
+  --color-on-primary: #0A0D0E;
 
-  --color-outline: #333333;
-  --color-outline-variant: #222222;
-
-  --color-error: #4684C7;
-  --color-on-error: #080808;
+  --color-outline: #242D31;
+  --color-outline-variant: #1A2124;
 
   /* Status Colors */
-  --color-red: #4684C7;
-  --color-green: #46C7B8;
-
-  /* Legacy token aliases → map to DS */
-  --color-midnight: #e8e4dc;
-  --color-slate-dark: #e8e4dc;
-  --color-primary-accent: #C68346;
-  --color-secondary-accent: #DDDB4A;
-  --color-pastel-pink: #C68346;
-  --color-pastel-purple: #C68346;
-  --color-pastel-orange: #C68346;
-  --color-lilac: #141414;
-  --color-pastel-yellow: #C68346;
-  --color-lavender: #080808;
-  --color-mist-blue: #141414;
-  --color-pale-peach: #1a1a1a;
-  --color-mint-haze: #0f0f0f;
+  --color-red: #B57BA6;
+  --color-green: #73C1C6;
 }
 
 @layer base {
@@ -59,53 +42,18 @@
 
   body {
     @apply bg-surface text-on-surface font-sans;
-    background-color: #080808;
-    transition: background-color 150ms cubic-bezier(0, 0, 0.2, 1);
+    background-color: #0A0D0E;
   }
 
-  /* Grain noise overlay — matches temp.html studio aesthetic */
-  body::before {
-    content: "";
-    pointer-events: none;
-    position: fixed;
-    inset: 0;
-    z-index: 9998;
-    opacity: 0.035;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* Scanline overlay */
-  body::after {
-    content: "";
-    pointer-events: none;
-    position: fixed;
-    inset: 0;
-    z-index: 9997;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 0, 0, 0.03) 2px,
-      rgba(0, 0, 0, 0.03) 4px
-    );
-  }
-
-  #root {
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Custom cursor */
   #fs-cursor {
     pointer-events: none;
     position: fixed;
     width: 8px;
     height: 8px;
-    background: #e8c547;
+    background: #73C1C6;
     border-radius: 50%;
     transform: translate(-50%, -50%);
     z-index: 99999;
-    transition: transform 0.05s linear;
   }
 
   #fs-cursor-ring {
@@ -113,253 +61,70 @@
     position: fixed;
     width: 28px;
     height: 28px;
-    border: 1px solid rgba(232, 197, 71, 0.5);
+    border: 1px solid rgba(115, 193, 198, 0.5);
     border-radius: 50%;
     transform: translate(-50%, -50%);
     z-index: 99998;
-    transition: transform 0.12s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
   }
 
   ::selection {
-    background: rgba(232, 197, 71, 0.15);
-    color: #e8e4dc;
+    background: rgba(115, 193, 198, 0.2);
+    color: #E8F1F2;
   }
 
-  /* DM Mono for all monospace elements */
-  code, kbd, samp, pre, .font-mono {
-    font-family: "DM Mono", ui-monospace, monospace;
+  .font-display {
+    font-family: "Ultra", serif;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+  }
+
+  .font-sans {
+    font-family: "Slabo 27px", serif;
   }
 }
 
 @layer components {
-  /* Panels: depth via border-defined cells — matches temp.html panel style */
   .ds-panel {
     @apply bg-surface-container-high text-on-surface;
-    border: 1px solid #222222;
+    border: 1px solid #242D31;
+    border-radius: 4px;
   }
 
-  .ds-panel-inset {
-    @apply bg-surface-container-low text-on-surface;
-    border: 1px solid #1a1a1a;
-  }
-
-  .ds-panel-raised {
-    @apply bg-surface-container-highest text-on-surface;
-    border: 1px solid #333333;
-  }
-
-  /* Ghost border */
-  .ds-ghost-border {
-    border: 1px solid #222222;
-  }
-
-  /* Primary CTA — gold filament, square corners */
   .btn-primary {
-    @apply inline-flex items-center justify-center px-5 py-2.5 font-semibold uppercase tracking-widest text-[11px];
-    border-radius: 0;
-    background: #e8c547;
-    color: #080808;
-    font-family: "DM Mono", monospace;
-    transition:
-      background 150ms cubic-bezier(0, 0, 0.2, 1),
-      box-shadow 150ms cubic-bezier(0, 0, 0.2, 1),
-      opacity 150ms cubic-bezier(0, 0, 0.2, 1);
+    @apply inline-flex items-center justify-center px-6 py-3 font-bold uppercase tracking-wider text-[12px];
+    border-radius: 2px;
+    background: #73C1C6;
+    color: #0A0D0E;
+    font-family: "Ultra", serif;
+    transition: all 150ms ease;
   }
 
   .btn-primary:hover:not(:disabled) {
-    background: #f0d060;
-    box-shadow: 0 0 0 1px #e8c547, 0 0 24px rgba(232, 197, 71, 0.25);
-  }
-
-  .btn-primary:disabled {
-    @apply cursor-not-allowed opacity-40;
+    background: #96C3CE;
+    box-shadow: 0 0 30px rgba(115, 193, 198, 0.3);
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-5 py-2.5 uppercase tracking-widest text-[11px] font-semibold;
-    border-radius: 0;
+    @apply inline-flex items-center justify-center px-6 py-3 uppercase tracking-wider text-[12px] font-bold;
+    border-radius: 2px;
     background: transparent;
-    color: #e8c547;
-    border: 1px solid rgba(232, 197, 71, 0.25);
-    font-family: "DM Mono", monospace;
-    transition:
-      background 150ms cubic-bezier(0, 0, 0.2, 1),
-      border-color 150ms cubic-bezier(0, 0, 0.2, 1);
+    color: #73C1C6;
+    border: 1px solid #73C1C6;
+    font-family: "Ultra", serif;
   }
 
   .btn-secondary:hover:not(:disabled) {
-    background: rgba(232, 197, 71, 0.06);
-    border-color: rgba(232, 197, 71, 0.5);
+    background: rgba(115, 193, 198, 0.05);
+    border-color: #96C3CE;
   }
 
   .btn-minimal {
-    @apply px-3 py-1.5 text-xs font-semibold uppercase tracking-widest;
-    border-radius: 0;
-    color: #5a5650;
-    border-bottom: 1px solid transparent;
-    font-family: "DM Mono", monospace;
-    transition: border-color 150ms cubic-bezier(0, 0, 0.2, 1), color 150ms cubic-bezier(0, 0, 0.2, 1);
+    @apply px-3 py-1.5 text-xs font-bold uppercase tracking-widest;
+    color: #A79AB2;
+    font-family: "Ultra", serif;
   }
 
   .btn-minimal:hover {
-    color: #e8c547;
-    border-color: rgba(232, 197, 71, 0.4);
-  }
-
-  /* Data port inputs — bottom bar only, gold focus */
-  .ds-input {
-    @apply w-full px-0 py-3 border-0 border-b-2;
-    background: transparent;
-    color: #e8e4dc;
-    border-color: #333333;
-    border-radius: 0;
-    font-family: "DM Mono", monospace;
-    font-size: 0.875rem;
-    transition:
-      border-color 150ms cubic-bezier(0, 0, 0.2, 1),
-      background-color 150ms cubic-bezier(0, 0, 0.2, 1);
-  }
-
-  .ds-input:focus {
-    outline: none;
-    border-color: #e8c547;
-    background: rgba(232, 197, 71, 0.03);
-  }
-
-  .ds-input::placeholder {
-    color: #5a5650;
-  }
-
-  /* Bebas Neue display class */
-  .font-display {
-    font-family: "Bebas Neue", ui-sans-serif, system-ui, sans-serif;
-    letter-spacing: 0.04em;
-  }
-
-  /* Feature card hover — gold top accent bar (matches temp.html) */
-  .ds-card-hover {
-    position: relative;
-    transition: border-color 200ms ease;
-  }
-
-  .ds-card-hover::before {
-    content: "";
-    position: absolute;
-    top: -1px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #e8c547;
-    opacity: 0;
-    transition: opacity 200ms ease;
-  }
-
-  .ds-card-hover:hover::before {
-    opacity: 1;
-  }
-
-  .ds-card-hover:hover {
-    border-color: rgba(232, 197, 71, 0.2);
-  }
-
-  /* Glass overlay for floating UI */
-  .ds-glass {
-    background: rgba(20, 20, 20, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    color: #e8e4dc;
-    border: 1px solid #222222;
-    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
-  }
-
-  /* Zebra list rows */
-  .ds-zebra-odd {
-    @apply bg-surface-container-low;
-  }
-
-  .ds-zebra-even {
-    @apply bg-surface-container-lowest;
-  }
-
-  /* Ambient float shadow (menus) */
-  .ds-float-shadow {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
-  }
-
-  /* Legacy aliases used across views */
-  .glass-panel {
-    background: #141414;
-    color: #e8e4dc;
-    border: 1px solid #222222;
-    border-radius: 0;
-    position: relative;
-    transition: border-color 200ms ease;
-  }
-
-  .glass-panel:hover {
-    border-color: #333333;
-  }
-
-  /* Gold top-bar on card hover */
-  .glass-panel.ds-card-hover::before {
-    content: "";
-    position: absolute;
-    top: -1px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: #e8c547;
-    opacity: 0;
-    transition: opacity 200ms ease;
-  }
-
-  .glass-panel.ds-card-hover:hover::before {
-    opacity: 1;
-  }
-
-  .solid-panel {
-    background: #1a1a1a;
-    color: #e8e4dc;
-    border: 1px solid #222222;
-    border-radius: 0;
-  }
-
-  .glass-overlay {
-    background: rgba(20, 20, 20, 0.85);
-    color: #e8e4dc;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
-  }
-
-  /* Status badge gold accent */
-  .status-active {
-    color: #47e87a;
-    background: rgba(71, 232, 122, 0.08);
-    border: 1px solid rgba(71, 232, 122, 0.2);
-  }
-
-  .status-error {
-    color: #e84747;
-    background: rgba(232, 71, 71, 0.08);
-    border: 1px solid rgba(232, 71, 71, 0.2);
-  }
-
-  .status-pending {
-    color: #e8c547;
-    background: rgba(232, 197, 71, 0.08);
-    border: 1px solid rgba(232, 197, 71, 0.2);
-  }
-
-  /* Scroll reveal animation */
-  .reveal {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
+    color: #73C1C6;
   }
 }
