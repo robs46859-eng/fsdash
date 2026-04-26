@@ -5,6 +5,7 @@ import { TopBar } from "./components/layout/TopBar";
 import { LandingPage } from "./views/LandingPage";
 import { AccessView } from "./views/AccessView";
 import { MarketingStudioView } from "./views/MarketingStudioView";
+import { MarketingBuildSuiteView } from "./views/MarketingBuildSuiteView";
 import { MarketingEconomicsView } from "./views/MarketingEconomicsView";
 import { OverviewView } from "./views/OverviewView";
 import { ResourceSurfaceView } from "./views/ResourceSurfaceView";
@@ -24,6 +25,7 @@ import {
   KeyRound,
   Library,
   Megaphone,
+  PanelsTopLeft,
   ReceiptText,
   Route,
   ScrollText,
@@ -62,6 +64,7 @@ const sectionIcons = {
   overview: Activity,
   "stelarai-control-plane": Orbit,
   "marketing-studio": Megaphone,
+  "marketing-build-suite": PanelsTopLeft,
   "marketing-economics": ReceiptText,
   playground: Sparkles,
   "prompt-library": Library,
@@ -394,6 +397,9 @@ export default function App() {
       break;
     case "marketing-studio":
       content = <MarketingStudioView />;
+      break;
+    case "marketing-build-suite":
+      content = <MarketingBuildSuiteView />;
       break;
     case "marketing-economics":
       content = <MarketingEconomicsView />;

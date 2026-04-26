@@ -2,6 +2,7 @@ export type AppSectionId =
   | "overview"
   | "stelarai-control-plane"
   | "marketing-studio"
+  | "marketing-build-suite"
   | "marketing-economics"
   | "playground"
   | "prompt-library"
@@ -56,6 +57,18 @@ export const surfaceDefinitions: SurfaceDefinition[] = [
       "Includes six standalone generators with independent schema, prompt orchestration, draft state, version history, and export actions.",
       "Does not auto-sync outputs into CRM objects or imply account-record persistence.",
       "Architecture is prepared for later vertical templates, brand kits, and approval workflows without altering existing CRM surfaces.",
+    ],
+  },
+  {
+    id: "marketing-build-suite",
+    title: "Marketing Build Suite",
+    navLabel: "Build Suite",
+    path: "/app/marketing-build-suite",
+    description: "Prompt-first website and app build intake tied to PapaBase business-manager state, branding direction, and one-time delivery packages.",
+    notes: [
+      "Treats the branding statement as the source of truth for strong positioning, layout direction, and launch recommendations.",
+      "Reads PapaBase Executive AI state when available so build briefs inherit business context instead of starting empty.",
+      "Keeps the build offer inside the marketing suite while routing payment through the existing Stripe checkout flow.",
     ],
   },
   {

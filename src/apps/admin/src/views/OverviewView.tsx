@@ -70,7 +70,8 @@ export function OverviewView({ runtime, surfaces }: OverviewViewProps) {
     <div className="flex-1 overflow-y-auto p-10">
       <div className="mx-auto max-w-6xl">
         <header className="mb-12">
-          <h1 className="mb-3 font-display text-2xl font-semibold uppercase tracking-tight text-on-surface">Overview</h1>
+          <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.24em] text-secondary-accent">Operator map</p>
+          <h1 className="mb-3 font-display text-3xl font-semibold uppercase tracking-tight text-on-surface">Overview</h1>
           <p className="font-medium text-on-surface-variant">
             FullStack is the primary operator surface. This overview reflects actual runtime configuration instead of
             placeholder telemetry.
@@ -81,7 +82,7 @@ export function OverviewView({ runtime, surfaces }: OverviewViewProps) {
           {overviewCards.map((card) => (
             <div key={card.title} className="glass-panel p-6">
               <div className="mb-5 flex items-center justify-between">
-                <div className="flex h-11 w-11 items-center justify-center bg-surface-container-low text-primary outline outline-1 -outline-offset-1 outline-outline-variant/15">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-secondary-accent/12 text-secondary-accent outline outline-1 -outline-offset-1 outline-secondary-accent/20">
                   <card.icon size={20} strokeWidth={1.7} />
                 </div>
                 <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-primary">Runtime</span>

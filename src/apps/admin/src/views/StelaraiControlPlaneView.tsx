@@ -54,11 +54,12 @@ export function StelaraiControlPlaneView() {
       <div className="mx-auto max-w-6xl">
         <header className="mb-10">
           <div className="flex items-center gap-3">
-            <div className="flex h-11 w-11 items-center justify-center bg-surface-container-low text-primary outline outline-1 -outline-offset-1 outline-outline-variant/15">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-secondary-accent/12 text-secondary-accent outline outline-1 -outline-offset-1 outline-secondary-accent/20">
               <Orbit size={20} strokeWidth={1.7} />
             </div>
             <div>
-              <h1 className="font-display text-2xl font-semibold uppercase tracking-tight text-on-surface">
+              <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.24em] text-secondary-accent">Control plane</p>
+              <h1 className="font-display text-3xl font-semibold uppercase tracking-tight text-on-surface">
                 StelarAI Control Plane
               </h1>
               <p className="mt-2 max-w-3xl text-sm leading-6 text-on-surface-variant">

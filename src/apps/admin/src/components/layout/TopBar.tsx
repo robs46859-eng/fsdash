@@ -10,28 +10,30 @@ interface TopBarProps {
 
 export function TopBar({ runtime, surface, sessionLabel }: TopBarProps) {
   return (
-    <div className="sticky top-0 z-30 flex h-20 shrink-0 items-center justify-between bg-surface px-10 outline outline-1 -outline-offset-1 outline-outline-variant/10">
+    <div className="sticky top-0 z-30 flex h-24 shrink-0 items-center justify-between border-b border-outline-variant/10 bg-surface/70 px-10 backdrop-blur-xl">
       <div className="flex items-center gap-6">
-        <div className="bg-surface-container-high px-4 py-3 outline outline-1 -outline-offset-1 outline-outline-variant/15">
-          <p className="font-display text-[10px] font-bold uppercase tracking-[0.2em] text-primary">Surface</p>
-          <p className="mt-1 font-display text-sm font-semibold uppercase tracking-wide text-on-surface">{surface.title}</p>
+        <div className="glass-panel px-5 py-3">
+          <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-secondary-accent">Surface</p>
+          <p className="mt-1 font-display text-base font-semibold uppercase tracking-wide text-on-surface">{surface.title}</p>
         </div>
 
-        <div className="flex items-center gap-2.5 bg-surface-container-low px-3 py-1.5 outline outline-1 -outline-offset-1 outline-emerald-500/25">
-          <div className="h-1.5 w-1.5 animate-pulse bg-emerald-400" />
-          <span className="text-[10px] font-bold uppercase tracking-widest text-emerald-400/90">Runtime shell</span>
+        <div className="rounded-full border border-secondary-accent/25 bg-secondary-accent/10 px-4 py-2">
+          <div className="flex items-center gap-2.5">
+            <div className="h-2 w-2 animate-pulse rounded-full bg-secondary-accent" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.22em] text-secondary-accent">Runtime shell</span>
+          </div>
         </div>
       </div>
 
       <div className="flex flex-wrap items-center justify-end gap-3">
-        <div className="bg-surface-container-high px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant outline outline-1 -outline-offset-1 outline-outline-variant/15">
+        <div className="glass-panel px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant">
           {sessionLabel}
         </div>
-        <div className="bg-surface-container-high px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant outline outline-1 -outline-offset-1 outline-outline-variant/15">
+        <div className="glass-panel px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant">
           {runtime.apiBaseUrl || "same-origin api"}
         </div>
         {runtime.arkham.enabled && (
-          <div className="bg-surface-container-high px-3 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant outline outline-1 -outline-offset-1 outline-outline-variant/15">
+          <div className="glass-panel px-4 py-2 text-[10px] font-bold uppercase tracking-[0.2em] text-on-surface-variant">
             {runtime.arkham.label} sidecar
           </div>
         )}

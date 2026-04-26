@@ -400,7 +400,7 @@ const SlidePanel = ({ item, onClose, onAction }: { item: ReviewItem | null, onCl
                   onAction();
                 }}
                 disabled={item.status !== "approved"}
-                className="w-full btn-primary bg-red text-on-surface shadow-red/20 flex items-center justify-center gap-2"
+                className="w-full btn-primary flex items-center justify-center gap-2"
               >
                 <Play size={18} /> Execute Action
               </button>
@@ -419,7 +419,7 @@ const SlidePanel = ({ item, onClose, onAction }: { item: ReviewItem | null, onCl
                   onAction();
                 }}
                 disabled={item.status !== "executed"}
-                className="w-full btn-primary bg-purple-500 text-on-surface shadow-purple-500/20 flex items-center justify-center gap-2"
+                className="w-full btn-secondary flex items-center justify-center gap-2"
               >
                 <Send size={18} /> Dry-Run Deliver
               </button>
@@ -1420,44 +1420,8 @@ export default function App() {
     }
   };
 
-  useEffect(() => {
-    const cursor = document.getElementById('fs-cursor');
-    const ring = document.getElementById('fs-cursor-ring');
-    if (!cursor || !ring) return;
-
-    let mx = 0, my = 0, rx = 0, ry = 0;
-
-    const onMouseMove = (e: MouseEvent) => {
-      mx = e.clientX; 
-      my = e.clientY;
-      cursor.style.left = mx + 'px';
-      cursor.style.top = my + 'px';
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-
-    let frameId: number;
-    const animRing = () => {
-      rx += (mx - rx) * 0.12;
-      ry += (my - ry) * 0.12;
-      ring.style.left = rx + 'px';
-      ring.style.top = ry + 'px';
-      frameId = requestAnimationFrame(animRing);
-    };
-    frameId = requestAnimationFrame(animRing);
-
-    return () => {
-      document.removeEventListener('mousemove', onMouseMove);
-      cancelAnimationFrame(frameId);
-    };
-  }, []);
-
   return (
     <div className="flex h-screen overflow-hidden relative bg-surface">
-      {/* Custom Cursor elements expected by index.css */}
-      <div id="fs-cursor" />
-      <div id="fs-cursor-ring" />
-      
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
       
       <main className="flex-1 flex flex-col overflow-hidden relative z-10">
@@ -1481,4 +1445,3 @@ export default function App() {
     </div>
   );
 }
-
